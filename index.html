@@ -618,25 +618,55 @@
     [40.873,-73.526],[40.960,-72.290],[41.100,-72.000],
     [41.038,-71.955],[41.169,-71.577],[41.281,-70.099]
   ];
-  // Snowbird: offshore NJ coast, past Chesapeake entrance offshore, into Norfolk
+  // Snowbird: offshore NJ coast → Cape May → offshore VA → Cape Henry → Norfolk
+  // → ICW: Great Bridge lock → Coinjock → Albemarle Sound → Alligator River →
+  //   Alligator-Pungo Canal → Belhaven → Pamlico Sound → Oriental → Adams Creek →
+  //   Beaufort NC → Core Sound → Wrightsville Beach → Cape Fear → SC coast →
+  //   Georgetown → Charleston → Beaufort SC → Savannah → Jekyll → Cumberland →
+  //   Fernandina → St. Augustine → Daytona → Cape Canaveral → Stuart → Palm Beach
   var snowbird = [
-    [40.873,-73.526],[40.460,-74.010],[39.500,-73.900],
-    [38.930,-74.970],[38.200,-74.800],[37.000,-75.900],
-    [36.930,-76.010],[36.846,-76.285],[36.100,-76.100],
-    [35.500,-76.200],[34.720,-76.660],[33.850,-77.950],
-    [33.100,-79.200],[32.776,-79.931],[32.076,-81.086],
-    [30.700,-81.450],[29.894,-81.313],[28.400,-80.600],
-    [26.710,-80.053]
+    [40.873,-73.526],  // Centre Island, Oyster Bay
+    [40.770,-73.700],  // LI Sound west toward East River
+    [40.620,-73.970],  // Verrazano Narrows / NY Harbor
+    [40.460,-74.020],  // Sandy Hook NJ
+    [40.090,-74.020],  // off Asbury Park NJ
+    [39.380,-74.400],  // off Atlantic City NJ
+    [38.930,-74.880],  // Cape May NJ
+    [38.460,-74.700],  // offshore Delaware
+    [38.000,-75.100],  // offshore mid-Virginia
+    [37.200,-75.900],  // offshore Virginia Beach
+    [36.920,-76.010],  // Cape Henry / Chesapeake Bay entrance
+    [36.846,-76.285],  // Norfolk VA — ICW Mile 0
+    [36.728,-76.233],  // Great Bridge VA — lock (ICW MM 11)
+    [36.348,-75.948],  // Coinjock NC — fuel stop (ICW MM 50)
+    [36.100,-76.050],  // North Landing River / Albemarle Sound approach
+    [35.858,-75.932],  // Alligator River entrance (MM 84)
+    [35.667,-76.174],  // Alligator-Pungo Canal midpoint (MM 109)
+    [35.243,-76.547],  // Belhaven NC — overnight (ICW MM 136)
+    [35.050,-76.600],  // Pamlico Sound crossing
+    [35.023,-76.695],  // Oriental NC — overnight (ICW MM 181)
+    [34.893,-76.755],  // Adams Creek / Core Sound approach
+    [34.700,-76.675],  // Beaufort NC — best ICW stop (MM 204)
+    [34.500,-77.300],  // New River area NC
+    [34.220,-77.800],  // Wrightsville Beach NC (MM 283)
+    [33.910,-78.020],  // Southport / Cape Fear NC (MM 309)
+    [33.860,-78.620],  // Little River SC / NC border
+    [33.700,-78.940],  // Myrtle Beach SC (MM 353)
+    [33.373,-79.180],  // Georgetown SC / Winyah Bay (MM 403)
+    [32.776,-79.931],  // Charleston SC (MM 469)
+    [32.430,-80.670],  // Beaufort SC / Port Royal Sound (MM 536)
+    [32.076,-81.086],  // Savannah GA (MM 577)
+    [31.038,-81.425],  // Jekyll Island GA (MM 685)
+    [30.997,-81.433],  // Cumberland Island GA (MM 711)
+    [30.680,-81.470],  // Fernandina Beach FL (MM 715)
+    [29.894,-81.313],  // St. Augustine FL (MM 777)
+    [29.200,-81.020],  // Daytona Beach area
+    [28.580,-80.750],  // Cape Canaveral area
+    [27.600,-80.380],  // Vero Beach FL
+    [27.202,-80.272],  // Stuart FL (MM 989)
+    [26.710,-80.053]   // Palm Beach FL
   ];
-  var returnN = [
-    [26.710,-80.053],[28.400,-80.600],[29.894,-81.313],
-    [30.700,-81.450],[32.076,-81.086],[32.776,-79.931],
-    [33.100,-79.200],[33.850,-77.950],[34.720,-76.660],
-    [35.500,-76.200],[36.100,-76.100],[36.846,-76.285],
-    [36.930,-76.010],[37.000,-75.900],[38.200,-74.800],
-    [38.930,-74.970],[39.500,-73.900],[40.460,-74.010],
-    [40.873,-73.526]
-  ];
+  var returnN = [...snowbird].reverse();
   // Caribbean: Bahamas → routes east of Hispaniola via Turks Island Passage
   var carib = [
     [26.710,-80.053],[26.689,-78.992],[25.047,-77.355],
@@ -664,6 +694,10 @@
   }
   function gemIcon(){
     return L.divIcon({html:'<div style="width:13px;height:13px;border-radius:50%;background:#ffd700;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,.6)"></div>',className:'',iconSize:[13,13],iconAnchor:[6,6]});
+  }
+
+  function stopIcon(){
+    return L.divIcon({html:'<div style="width:12px;height:12px;border-radius:50%;background:#e8965a;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.7)"></div>',className:'',iconSize:[12,12],iconAnchor:[6,6]});
   }
 
   function mk(coords,icon,name,tag,voyage,desc,badges){
@@ -757,6 +791,52 @@
     '620nm · ~6 days from Palm Beach via Windward Passage',
     'Bloody Bay Wall on Little Cayman — ranked one of the world\'s top 5 dive sites. Stingray City. Friends with property on-island. Seven Mile Beach is genuinely one of the world\'s best beaches.',
     ['🤿 Bloody Bay Wall','🐟 Stingray City','🏖️ Seven Mile Beach']);
+
+  // ── ICW Overnight Stops ───────────────────────────
+  mk([36.728,-76.233],stopIcon(),'Great Bridge, VA','ICW OVERNIGHT · MM 11',
+    'Norfolk to Great Bridge: 11nm · 2hrs',
+    'First lock on the ICW. Free wall tie-up just south of the lock. Small town, good grocery store nearby. Easy first-day stop if you leave Norfolk late.',
+    ['🔒 First ICW lock','🛒 Grocery close','⚓ Free wall tie-up']);
+
+  mk([36.348,-75.948],stopIcon(),'Coinjock, NC','ICW OVERNIGHT · MM 50',
+    'Great Bridge to Coinjock: 39nm · 6–7hrs',
+    'The classic first overnight on the ICW run south. Coinjock Marina has free dockage with fuel purchase. Famous for the prime rib dinner. Gets crowded in October — call ahead.',
+    ['⛽ Fuel dock','🥩 Prime rib dinner','📞 Call ahead — fills fast']);
+
+  mk([35.243,-76.547],stopIcon(),'Belhaven, NC','ICW OVERNIGHT · MM 136',
+    'Coinjock to Belhaven: 86nm · ~14hrs (Albemarle + Pungo)',
+    'Quiet fishing town after the Alligator-Pungo Canal transit. Pantego Creek anchorage is well-protected and free. Good provisioning at Piggly Wiggly. Half Moon Marina for a slip.',
+    ['🌿 Protected anchorage','🛒 Piggly Wiggly nearby','🎣 Fishing village']);
+
+  mk([35.023,-76.695],stopIcon(),'Oriental, NC','ICW OVERNIGHT · MM 181',
+    'Belhaven to Oriental: 45nm · ~7hrs',
+    'Called the "Sailing Capital of North Carolina." Free town dinghy dock. The Bean coffee shop for mornings, M&M\'s Diner for breakfast. Gorgeous anchorage in the Neuse River. Zero reason to rush through.',
+    ['⛵ Sailing capital NC','☕ Great coffee','⚓ Free town dock']);
+
+  mk([34.700,-76.675],stopIcon(),'Beaufort, NC','ICW OVERNIGHT · MM 204',
+    'Oriental to Beaufort: 23nm · ~4hrs',
+    'Best stop on the entire ICW. Wild horses graze Shackleford Banks directly across the anchorage. Piver\'s Island anchorage is free and protected. Waterfront restaurants, free dinghy dock, great provisions. Spend two nights.',
+    ['🐎 Wild horses across anchorage','🦞 Clawson\'s Restaurant','⚓ Free anchorage Piver\'s Island']);
+
+  mk([33.373,-79.180],stopIcon(),'Georgetown, SC','ICW OVERNIGHT · MM 403',
+    'Beaufort NC to Georgetown: ~200nm · ~2 days',
+    'Underrated. Beautiful antebellum waterfront on the Sampit River. Steel Magnolias Restaurant is exceptional. Affordable marina slips. Good jumping-off point before the busy Charleston stretch.',
+    ['🏛️ Historic waterfront','🍽️ Steel Magnolias','💲 Affordable slips']);
+
+  mk([32.430,-80.670],stopIcon(),'Beaufort, SC','ICW OVERNIGHT · MM 536',
+    'Charleston to Beaufort SC: 67nm · ~11hrs',
+    'Pronounced "Bew-furt" (not "Bo-furt"). Downtown is one of the most beautiful small cities in the South — antebellum homes, live oaks, Spanish moss. The Anchorage Inn, Plums Restaurant. Free anchorage off Waterfront Park.',
+    ['🌳 Antebellum downtown','🍽️ Plums Restaurant','⚓ Free waterfront anchorage']);
+
+  mk([31.038,-81.425],stopIcon(),'Jekyll Island, GA','ICW OVERNIGHT · MM 685',
+    'Beaufort SC to Jekyll Island: ~150nm · ~2 days',
+    'State park with no high-rise development allowed. Free anchorage in Jekyll Creek. Bike the entire island. The Wharf restaurant for local shrimp and oysters. Wild horses on the beach.',
+    ['🐎 Wild horses','🚲 Bike the island','🦐 Local shrimp & oysters']);
+
+  mk([30.680,-81.470],stopIcon(),'Fernandina Beach, FL','ICW OVERNIGHT · MM 715',
+    'Jekyll Island to Fernandina Beach: 30nm · ~5hrs',
+    'First Florida stop. Historic downtown Centre Street, excellent craft beer at Peg Leg\'s. Excellent shrimp boats at the dock — buy directly. Free anchorage off Amelia Island or slip at the city marina.',
+    ['🍺 Peg Leg\'s craft beer','🦐 Buy direct from shrimpers','🌊 Amelia Island anchorage']);
 
   // ── Hidden gem anchorages ──────────────────────────
   mk([40.73,-72.83],gemIcon(),'★ Shelter Island, NY','HIDDEN GEM · LI SOUND',null,
