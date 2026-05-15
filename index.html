@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Captains Proposal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    :root{
+      --bg:#F6F1EA;--bg-alt:#EDE7DC;--ink:#1C1A17;--ink-2:#6B6560;
+      --border:#D6D0C4;--accent:#8B7355;--accent-bright:#C4A87A;
+      /* legacy aliases */
+      --navy:#1C1A17;--ocean:#8B7355;--sky:#C4A87A;
+      --sand:#F6F1EA;--white:#F6F1EA;--gold:#C4A87A;
+      --text:#1C1A17;--light:#EDE7DC;--green:#3D6B52;
+    }
+    [data-theme="dark"]{
+      --bg:#141210;--bg-alt:#1D1B18;--ink:#F0EBE2;--ink-2:#9E9890;
+      --border:#2E2B27;--accent:#C4A87A;--accent-bright:#D8B882;
+      --navy:#141210;--ocean:#C4A87A;--sky:#D8B882;
+      --sand:#1D1B18;--white:#141210;--gold:#C4A87A;
+      --text:#F0EBE2;--light:#252320;--green:#4A8562;
+    }
+
+    body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;transition:background .3s,color .3s}
+
+    /* ── THEME TOGGLE ── */
+    #theme-btn{
+      position:fixed;top:20px;right:24px;z-index:9999;
+      background:var(--bg-alt);color:var(--ink);border:1px solid var(--border);
+      border-radius:24px;padding:8px 18px;cursor:pointer;
+      font-family:'Inter',sans-serif;font-size:12px;font-weight:500;letter-spacing:.5px;
+      box-shadow:0 2px 16px rgba(0,0,0,.12);transition:all .2s
+    }
+    #theme-btn:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+    /* ── HERO ── */
+    .hero{
+      background:linear-gradient(160deg,#1C1A17 0%,#2A2520 50%,#1C1A17 100%);
+      color:#F0EBE2;padding:100px 40px 100px;text-align:center;position:relative;overflow:hidden
+    }
+    .hero::after{
+      content:'';position:absolute;bottom:0;left:0;right:0;height:70px;
+      background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+    .tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;
+      letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+    .hero h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(50px,9vw,86px);font-weight:400;line-height:1.05;margin-bottom:22px;letter-spacing:-1px;color:#F0EBE2}
+    .hero h1 em{font-style:italic;color:var(--gold)}
+    .hero-sub{font-family:'Inter',sans-serif;font-size:18px;font-weight:300;
+      opacity:.8;max-width:600px;margin:0 auto 50px;color:#F0EBE2}
+    .hero-stats{display:flex;justify-content:center;gap:50px;flex-wrap:wrap}
+    .hs .num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--gold);display:block}
+    .hs .lbl{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;
+      text-transform:uppercase;opacity:.6;color:#F0EBE2}
+
+    /* ── LAYOUT ── */
+    .wrap{max-width:980px;margin:0 auto;padding:80px 40px}
+    .section-tag{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;
+      letter-spacing:4px;text-transform:uppercase;color:var(--ocean);margin-bottom:12px}
+    .divider{width:56px;height:2px;background:var(--gold);margin:0 0 28px}
+    h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(28px,4vw,50px);font-weight:400;line-height:1.15;margin-bottom:22px;color:var(--ink)}
+    h3{font-family:'Inter',sans-serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:10px}
+    p{margin-bottom:16px;font-size:17px;color:var(--ink)}p:last-child{margin-bottom:0}
+
+    /* ── BANDS ── */
+    .dark{background:#1C1A17;color:#F0EBE2}
+    [data-theme="dark"] .dark{background:#1D1B18;color:#F0EBE2}
+    .dark h2{font-family:'Cormorant Garamond',serif;color:#F0EBE2!important}
+    .dark h3{color:#F0EBE2}
+    .dark p{color:rgba(240,235,226,.82)}
+    .dark .section-tag{color:var(--gold)}
+    .sand-bg{background:var(--bg-alt)}
+    .ocean-bg{background:linear-gradient(160deg,#1C1A17,#2A2520);color:#F0EBE2}
+    .ocean-bg h2{font-family:'Cormorant Garamond',serif;color:#F0EBE2}
+    .ocean-bg .section-tag{color:var(--gold)}
+
+    /* ── GRIDS ── */
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px}
+    .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-top:40px}
+    .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:32px}
+    @media(max-width:700px){.g2,.g3{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}}
+
+    /* ── CARDS ── */
+    .card{background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:28px}
+    .card-dark{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:28px}
+    .card-gold{border-left:3px solid var(--gold);padding-left:24px}
+    .icon-lg{font-size:32px;margin-bottom:14px}
+
+    /* ── BOAT SPECS ── */
+    .spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:24px}
+    .spec{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+    .spec .sl{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.5}
+    .spec .sv{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--gold)}
+
+    /* ── TIMELINE ── */
+    .timeline{margin-top:48px;position:relative}
+    .timeline::before{content:'';position:absolute;left:30px;top:0;bottom:0;width:1px;
+      background:linear-gradient(to bottom,var(--ocean),var(--gold))}
+    .ti{display:flex;gap:28px;margin-bottom:40px}
+    .td{width:60px;height:60px;border-radius:50%;background:var(--bg-alt);color:var(--ink);
+      display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;
+      z-index:1;border:1px solid var(--border)}
+    .tc{padding-top:10px}
+    .period{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;
+      letter-spacing:3px;text-transform:uppercase;color:var(--ocean);margin-bottom:6px}
+    .tc p{font-size:16px;color:var(--ink-2)}
+
+    /* ── STOPS ── */
+    .stop{background:var(--bg-alt);border:1px solid var(--border);color:var(--ink);border-radius:10px;padding:20px 14px;text-align:center}
+    .stop .si{font-size:28px;margin-bottom:8px}
+    .stop .sn{font-size:13px;font-weight:700;font-family:'Inter',sans-serif;margin-bottom:3px}
+    .stop .sd{font-size:11px;opacity:.6}
+
+    /* ── ROUTE BAND ── */
+    .route-band{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+      color:#F0EBE2;padding:48px 40px;margin-top:48px;border-radius:16px}
+    .route-stops{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-top:28px}
+    .rs{text-align:center;padding:0 16px}
+    .rs .ri{font-size:26px;margin-bottom:6px}
+    .rs .rn{font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--gold)}
+    .rs .rd{font-size:11px;opacity:.5}
+    .arrow{color:rgba(255,255,255,.25);font-size:18px;padding:0 4px}
+
+    /* ── COST TABLE ── */
+    .ct{width:100%;border-collapse:collapse;margin-top:32px;font-size:16px}
+    .ct th{background:#1C1A17;color:#F0EBE2;padding:14px 18px;text-align:left;
+      font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase}
+    [data-theme="dark"] .ct th{background:var(--bg-alt);color:var(--ink);border-bottom:1px solid var(--border)}
+    .ct td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink)}
+    .ct tr:nth-child(even) td{background:var(--bg-alt)}
+    .ct .total td{font-weight:700;background:var(--bg-alt)!important;border-top:2px solid var(--accent);
+      font-size:18px;color:var(--ink)}
+    .ct .total td:last-child{color:var(--accent)}
+    .ct .subhead td{background:var(--bg)!important;font-family:'Inter',sans-serif;
+      font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--ocean);padding:10px 18px}
+    .note{background:var(--bg-alt);border-left:3px solid var(--gold);padding:18px 22px;
+      margin-top:20px;border-radius:0 8px 8px 0;font-size:15px;color:var(--ink)}
+
+    /* ── KPI ROW ── */
+    .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+    @media(max-width:600px){.kpi-row{grid-template-columns:1fr 1fr}}
+    .kpi{background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+    .kpi .kv{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--accent);margin-bottom:6px}
+    .kpi .kl{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;
+      text-transform:uppercase;color:var(--ink-2)}
+
+    /* ── AMENITIES ── */
+    .amenity-list{list-style:none;margin-top:16px}
+    .amenity-list li{padding:10px 0;border-bottom:1px solid var(--border);font-size:16px;
+      display:flex;gap:12px;align-items:center;color:var(--ink)}
+    .amenity-list li .ai{font-size:20px}
+
+    /* ── BOAT OWNER CARDS ── */
+    .owner-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;padding:30px 24px;text-align:center}
+    .owner-card .oc-icon{font-size:44px;margin-bottom:14px}
+    .owner-card h3{color:var(--gold);font-size:20px;margin-bottom:4px}
+    .owner-card .sub{font-size:13px;opacity:.55;margin-bottom:18px;font-family:'Inter',sans-serif}
+    .crew-li{list-style:none;text-align:left;font-size:14px;opacity:.8;line-height:2.2}
+    .crew-li li::before{content:'· ';color:var(--gold)}
+
+    /* ── SHARING MODEL ── */
+    .share-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+      border-radius:14px;padding:32px;margin-top:32px}
+    .share-box h3{color:var(--gold);margin-bottom:12px}
+
+    /* ── MAP EMBED ── */
+    .map-frame{width:100%;height:440px;border:none;border-radius:12px;margin-top:28px;
+      box-shadow:0 8px 40px rgba(0,0,0,.15)}
+
+    /* ── CTA ── */
+    .cta{background:#1C1A17;color:#F0EBE2;text-align:center;padding:80px 40px}
+    .cta h2{font-family:'Cormorant Garamond',serif;color:#F0EBE2;font-size:54px;font-weight:400}
+    .cta p{opacity:.7;font-size:18px;max-width:520px;margin:16px auto 40px;color:#F0EBE2}
+    .btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-block;padding:16px 34px;border-radius:4px;font-family:'Inter',sans-serif;
+      font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none}
+    .btn-gold{background:var(--gold);color:#1C1A17}
+    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,.35);color:#F0EBE2}
+
+    footer{background:#0D0C0A;color:rgba(255,255,255,.3);text-align:center;
+      padding:28px;font-family:'Inter',sans-serif;font-size:12px}
+  </style>
+</head>
+<body>
+
+<button id="theme-btn" title="Toggle dark / light mode">◑ Dark</button>
+<script>
+(function(){
+  var t=localStorage.getItem('theme')||'light';
+  document.documentElement.setAttribute('data-theme',t);
+  var btn=document.getElementById('theme-btn');
+  btn.textContent=t==='dark'?'◐ Light':'◑ Dark';
+  btn.onclick=function(){
+    var d=document.documentElement.getAttribute('data-theme')==='dark';
+    var n=d?'light':'dark';
+    document.documentElement.setAttribute('data-theme',n);
+    localStorage.setItem('theme',n);
+    this.textContent=n==='dark'?'◐ Light':'◑ Dark';
+  };
+})();
+</script>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="tag">A Proposal for Ragnar, Max &amp; Zack</div>
+  <h1>The <em>Captains</em> Proposal</h1>
+  <p class="hero-sub">Three boats. Centre Island to the Bahamas, Caymans, and the Caribbean — on your own terms, for a fraction of what a charter costs.</p>
+  <div class="hero-stats">
+    <div class="hs"><span class="num">3</span><span class="lbl">Sailboats</span></div>
+    <div class="hs"><span class="num">~15</span><span class="lbl">People</span></div>
+    <div class="hs"><span class="num">~$11K</span><span class="lbl">Per Boat / Year</span></div>
+    <div class="hs"><span class="num">~$1,500</span><span class="lbl">Per Person / 2-Week Trip</span></div>
+  </div>
+</div>
+
+<!-- ═══ THE CONCEPT ═══ -->
+<div class="wrap">
+  <div class="section-tag">The Concept</div>
+  <div class="divider"></div>
+  <h2>Own the boat once. Stop paying for charters forever.</h2>
+  <p>The math is simple: we each buy a solid 35–38-foot offshore sloop for $15,000–$25,000. Instead of paying $3,000–$8,000 per person to charter someone else's boat for a week, we own ours — and everyone who sails chips in $100–$150 a day toward fuel and costs. That's a two-week Caribbean trip for around $1,200–$1,500 per person, sleeping aboard, eating aboard, no hotel, no charter company taking 40% off the top.</p>
+  <p>The boats live in Oyster Bay for the summer — moored right off Centre Island for free — then head south to Palm Beach in October. Free anchorage at Lake Worth or Peanut Island all winter. From Palm Beach it's 55 miles across the Gulf Stream to the Bahamas, and from there the Caribbean is open.</p>
+
+  <div class="g2">
+    <div class="card-gold">
+      <h3>Why Ownership Beats Chartering</h3>
+      <p>A bareboat charter in the BVI runs $3,000–$7,000 per boat per week — before provisioning, fuel, or flights. You pay that every time, own nothing, and get whatever's available. Buy for $20K and by year three you've already broken even on that first trip. Every sail after that costs less than any charter you'd book — and you're on your own boat.</p>
+    </div>
+    <div class="card-gold">
+      <h3>The Cost-Sharing Model</h3>
+      <p>Each boat owner charges crew a daily contribution — roughly $100–$150/person/day — covering provisioning, fuel, dockage fees, and a portion of the annual ownership cost. At 5 people per boat and 14 days, crew contributions fully cover the trip costs and chip in ~$2,500–$3,500 toward annual ownership. Trips pay for themselves.</p>
+    </div>
+    <div class="card-gold">
+      <h3>The Centre Island Base</h3>
+      <p>The entire economics work because of the free mooring. Outdoor shower, grill, sauna, lounge, beachfront dining, gym, truck access — everything you need ashore is already there. The boat is moored right off Montecito Drive, east of Seawanhaka. Free dockage in New York changes the math dramatically.</p>
+    </div>
+    <div class="card-gold">
+      <h3>Three Boats Changes Everything</h3>
+      <p>One boat is a weekend toy. Three boats is a completely different thing. You coordinate trips, sail together, raft up at anchor. In the Bahamas, three boats means 12–15 people in the same anchorage — everyone's on each other's cockpits for cocktail hour, dinners rotate between boats, someone's always fishing off the stern. That's the trip people talk about for the rest of their lives.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ THE BOATS ═══ -->
+<div class="dark">
+  <div class="wrap">
+    <div class="section-tag">The Vessel</div>
+    <div class="divider"></div>
+    <h2>A classic offshore 35–38-foot sloop.</h2>
+    <p style="opacity:.85;max-width:640px">The target is a proven bluewater monohull from the 1980s — when American and European yards were building serious boats for serious ocean work. These hulls were designed to go offshore, not putt around a marina. Heavy, stiff, seaworthy, and priced at a fraction of anything built in the last 20 years.</p>
+
+    <div class="g2" style="align-items:start;gap:60px">
+      <div>
+        <h3 style="color:var(--gold);margin-bottom:20px">What to Look For</h3>
+        <div class="spec-grid">
+          <div class="spec"><div class="sl">Length</div><div class="sv">35–38 ft</div></div>
+          <div class="spec"><div class="sl">Purchase price</div><div class="sv">~$15–25K</div></div>
+          <div class="spec"><div class="sl">Sleeps</div><div class="sv">4–6 people</div></div>
+          <div class="spec"><div class="sl">Engine</div><div class="sv">Yanmar diesel</div></div>
+          <div class="spec"><div class="sl">Draft</div><div class="sv">~5 ft</div></div>
+          <div class="spec"><div class="sl">Setup upgrades</div><div class="sv">~$4–6K</div></div>
+          <div class="spec"><div class="sl">Fuel burn</div><div class="sv">~$2–3/hr</div></div>
+          <div class="spec"><div class="sl">Range</div><div class="sv">Coastal + offshore</div></div>
+        </div>
+
+        <div style="margin-top:32px;background:rgba(255,255,255,.07);border-radius:10px;padding:22px">
+          <div style="font-family:'Helvetica Neue',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Good Candidates to Research</div>
+          <ul style="list-style:none;font-size:15px;opacity:.85;line-height:2.2">
+            <li>⚓ Pearson 36 / 37 — American offshore classic</li>
+            <li>⚓ C&amp;C 35 / 37 — Canadian, fast &amp; seaworthy</li>
+            <li>⚓ Sabre 36 — Maine-built, owner-friendly</li>
+            <li>⚓ Tartan 37 — serious bluewater reputation</li>
+            <li>⚓ Comar Comet 111 — Italian, undervalued</li>
+            <li>⚓ Catalina 36 / 38 — common, parts everywhere</li>
+            <li>⚓ Beneteau First 38 — French, good offshore performance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="color:var(--gold);margin-bottom:20px">Life Aboard at This Size</h3>
+        <p style="opacity:.85">A 36-footer is not a superyacht — it's a serious sailing machine that sleeps and lives 4 people comfortably, 6 on a long weekend. Think of it as a studio apartment that can cross oceans.</p>
+        <ul style="list-style:none;font-size:15px;opacity:.85;line-height:2.5;margin-top:16px">
+          <li>🛏️ <strong>Sleeping:</strong> V-berth forward (double), 2 quarter berths, convertible settee</li>
+          <li>🍳 <strong>Galley:</strong> Propane stove + oven, 12V fridge, real counter space</li>
+          <li>🚿 <strong>Head:</strong> Marine toilet + pressurized shower</li>
+          <li>⚡ <strong>Power:</strong> 200–400W solar runs everything at anchor indefinitely</li>
+          <li>🛥️ <strong>Dinghy:</strong> Inflatable + outboard = your car for shore runs</li>
+          <li>🌊 <strong>Sailing:</strong> Autopilot handles overnight watches; room for 3–4 on deck</li>
+          <li>🍹 <strong>Cockpit:</strong> The living room — seats 6, is where you spend most of your time</li>
+        </ul>
+        <div class="note" style="margin-top:20px;background:rgba(255,255,255,.07);border-left-color:var(--gold)">
+          <strong style="color:var(--gold)">The key upgrade:</strong> <span style="opacity:.85">200–400 watts of solar panels ($700–$1,200 installed) makes the boat run indefinitely at anchor with no shore power. This is the single change that enables the free-anchorage lifestyle.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boat photo strip -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:48px">
+      <div style="position:relative;height:260px;overflow:hidden;border-radius:12px">
+        <img src="https://images.pexels.com/photos/33977614/pexels-photo-33977614.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&dpr=1"
+          style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="35-38ft offshore sloop underway"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:14px 16px">
+          <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C4A87A;margin-bottom:3px">The Boat</div>
+          <div style="font-size:13px;font-weight:700;color:white">Offshore sloop — built to go</div>
+        </div>
+      </div>
+      <div style="position:relative;height:260px;overflow:hidden;border-radius:12px">
+        <img src="https://images.pexels.com/photos/4577858/pexels-photo-4577858.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&dpr=1"
+          style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="Sailboat at anchor"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:14px 16px">
+          <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C4A87A;margin-bottom:3px">At Anchor</div>
+          <div style="font-size:13px;font-weight:700;color:white">Your home for weeks at a time</div>
+        </div>
+      </div>
+      <div style="position:relative;height:260px;overflow:hidden;border-radius:12px">
+        <img src="https://images.pexels.com/photos/6750217/pexels-photo-6750217.jpeg?auto=compress&cs=tinysrgb&w=900&h=600&dpr=1"
+          style="width:100%;height:100%;object-fit:cover" loading="lazy" alt="Sailing boat on ocean"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:14px 16px">
+          <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C4A87A;margin-bottom:3px">Under Sail</div>
+          <div style="font-size:13px;font-weight:700;color:white">~7 knots, no fuel bill</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LIFESTYLE PHOTOS ═══ -->
+<div style="position:relative;overflow:hidden;height:500px;background:#1C1A17">
+  <img src="https://images.pexels.com/photos/33977614/pexels-photo-33977614.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" loading="lazy"
+    style="width:100%;height:100%;object-fit:cover;opacity:.75;display:block" alt="Sailboat at sea"/>
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:36px 56px;
+    background:linear-gradient(transparent,rgba(28,26,23,.95))">
+    <div style="font-family:'Helvetica Neue',sans-serif;font-size:11px;letter-spacing:4px;
+      text-transform:uppercase;color:#c8a96e;margin-bottom:10px">The Lifestyle</div>
+    <h2 style="color:white;font-size:clamp(26px,4vw,42px);margin:0;font-weight:400">
+      What the days actually look like.
+    </h2>
+  </div>
+</div>
+<div style="background:var(--bg);padding:64px 40px">
+  <div style="max-width:980px;margin:0 auto">
+    <p style="font-size:18px;max-width:700px;color:#555;margin-bottom:40px;line-height:1.8">
+      A 36-footer is sized for <em>actually sailing</em> — fast enough to make real passages, comfortable enough to live aboard for weeks, simple enough that you know every system on it. Not a day-charter boat, not a marina queen. Here's what the days actually look like.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:300px 240px;gap:14px">
+      <div style="grid-column:1/2;grid-row:1/2;position:relative;border-radius:12px;overflow:hidden">
+        <img src="https://images.pexels.com/photos/3066718/pexels-photo-3066718.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Sailing with friends"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;
+          background:linear-gradient(transparent,rgba(0,0,0,.75));padding:16px 18px;color:white;
+          font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:3px">Life Aboard</div>
+          <div style="font-size:14px;font-weight:700">Cockpit as living room</div>
+        </div>
+      </div>
+      <div style="grid-column:2/4;grid-row:1/2;position:relative;border-radius:12px;overflow:hidden">
+        <img src="https://images.pexels.com/photos/16604565/pexels-photo-16604565.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Anchored in turquoise water"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;
+          background:linear-gradient(transparent,rgba(0,0,0,.75));padding:16px 18px;color:white;
+          font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:3px">The Caribbean</div>
+          <div style="font-size:14px;font-weight:700">Anchored in turquoise water — free, every night</div>
+        </div>
+      </div>
+      <div style="grid-column:1/2;grid-row:2/3;position:relative;border-radius:12px;overflow:hidden">
+        <img src="https://images.pexels.com/photos/30964390/pexels-photo-30964390.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Boat interior"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;
+          background:linear-gradient(transparent,rgba(0,0,0,.75));padding:14px 18px;color:white;
+          font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:3px">Below Deck</div>
+          <div style="font-size:13px;font-weight:700">Surprisingly livable</div>
+        </div>
+      </div>
+      <div style="grid-column:2/3;grid-row:2/3;position:relative;border-radius:12px;overflow:hidden">
+        <img src="https://images.pexels.com/photos/19316738/pexels-photo-19316738.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Grilling at sunset"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;
+          background:linear-gradient(transparent,rgba(0,0,0,.75));padding:14px 18px;color:white;
+          font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:3px">Every Evening</div>
+          <div style="font-size:13px;font-weight:700">Grill in the cockpit</div>
+        </div>
+      </div>
+      <div style="grid-column:3/4;grid-row:2/3;position:relative;border-radius:12px;overflow:hidden">
+        <img src="https://images.pexels.com/photos/4577858/pexels-photo-4577858.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Morning aboard"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;
+          background:linear-gradient(transparent,rgba(0,0,0,.75));padding:14px 18px;color:white;
+          font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:3px">Every Morning</div>
+          <div style="font-size:13px;font-weight:700">Coffee with no agenda</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HOME BASE ═══ -->
+<div class="sand-bg">
+  <div class="wrap">
+    <div class="section-tag">Home Base</div>
+    <div class="divider"></div>
+    <h2>Centre Island — Montecito Drive, Oyster Bay.</h2>
+    <p>The mooring sits right off the property, just east of Seawanhaka Corinthian Yacht Club. The shore setup is already there. The boat is your floating extension of the property — 100 yards offshore, dinghy access in two minutes.</p>
+
+    <div class="g2" style="align-items:start">
+      <div>
+        <h3>Ashore at the Property</h3>
+        <ul class="amenity-list">
+          <li><span class="ai">🚿</span> Outdoor shower — rinse off after swimming</li>
+          <li><span class="ai">🔥</span> Grill setup — cook what you catch</li>
+          <li><span class="ai">🏋️</span> Gym — maintain fitness between passages</li>
+          <li><span class="ai">🧖</span> Sauna — post-sail recovery</li>
+          <li><span class="ai">🌿</span> Lounge &amp; beach chairs</li>
+          <li><span class="ai">🍽️</span> Outdoor dining with water views</li>
+          <li><span class="ai">🚗</span> Truck parking on property</li>
+        </ul>
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:22px;margin-top:24px">
+          <div style="font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Mooring Season</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400">May 15 — October 1</div>
+          <div style="font-size:13px;opacity:.6;margin-top:4px">4.5 months · $0/month dockage</div>
+        </div>
+      </div>
+      <div>
+        <h3>The Mooring Setup</h3>
+        <p>A single helix or mushroom-anchor mooring installed once for $1,500–$2,500, maintained for a few hundred dollars a year. Town of Oyster Bay issues mooring permits — waterfront owners typically have access. Confirm with the Bay Constable before committing to the plan.</p>
+        <iframe
+          class="map-frame"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3014!2d-73.5260!3d40.8730!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c28116b44c9b3d%3A0xfb85ab2e8bad8e6!2sMontecito+Dr%2C+Centre+Island%2C+NY+11771!5e0!3m2!1sen!2sus!4v1700000000000"
+          allowfullscreen loading="lazy"
+          title="Centre Island, Montecito Drive"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ANNUAL ITINERARY ═══ -->
+<div class="wrap">
+  <div class="section-tag">The Annual Calendar</div>
+  <div class="divider"></div>
+  <h2>A full year on the water — north and south.</h2>
+  <p>The plan runs on two axes: a New York home base from May through September, and a Palm Beach/Caribbean base from October through April. The snowbird run connects them. The Caribbean season is when the fleet does its big trips together.</p>
+
+  <div class="timeline">
+
+    <div class="ti">
+      <div class="td">⚓</div>
+      <div class="tc">
+        <div class="period">May 15 – June</div>
+        <h3>Set Up & Launch — Centre Island</h3>
+        <p>Boat arrives (either sailed up from Florida or off the hard from winter storage). Mooring set in front of Montecito Drive. Shakedown sails, provisioning, systems check. Seawanhaka right next door for crew that wants amenities between outings.</p>
+      </div>
+    </div>
+
+    <div class="ti">
+      <div class="td">🗺️</div>
+      <div class="tc">
+        <div class="period">July – August</div>
+        <h3>Summer Cruises — Montauk, Block Island, Nantucket</h3>
+        <p><strong>Montauk:</strong> 80 nm, one long day sail. Anchor in Lake Montauk, dinghy into town. World-class fishing, surf, sunset from the cockpit.<br><br>
+        <strong>Block Island:</strong> 130 nm, Great Salt Pond — one of the best anchorages on the East Coast, surrounded by good restaurants within dinghy reach. Plan 3–4 nights.<br><br>
+        <strong>Nantucket:</strong> 180 nm via Block Island. Town moorings or anchor in Madaket. Cobblestones, lobster rolls, the quintessential New England sail destination.</p>
+      </div>
+    </div>
+
+    <div class="ti">
+      <div class="td">🥂</div>
+      <div class="tc">
+        <div class="period">Late August — Captains Weekend</div>
+        <h3>All Three Boats — Block Island or Nantucket</h3>
+        <p>All boats in the same anchorage. 12–15 people. Dinghies tied together. Cocktail hour on the water. Dinner on one boat, drinks on another. This is the centerpiece of the summer — the one everyone's talking about in September.</p>
+      </div>
+    </div>
+
+    <div class="ti">
+      <div class="td">🧭</div>
+      <div class="tc">
+        <div class="period">October – November</div>
+        <h3>The Snowbird Run — Oyster Bay to Palm Beach</h3>
+        <p>~1,200 nm south over 3–4 weeks. Route: Oyster Bay → offshore NJ coast → past the Chesapeake entrance → Norfolk (ICW Mile 0) → Beaufort NC → Charleston → Savannah → St. Augustine → West Palm Beach. Runs offshore where possible to avoid the Chesapeake detour — saves 3–4 days.<br><br>
+        Every stop is worth the time: Beaufort NC, Charleston, Savannah, St. Augustine. Budget $3,500–$6,000 for the passage (fuel, occasional dockage, provisions).</p>
+      </div>
+    </div>
+
+    <div class="ti">
+      <div class="td">🌴</div>
+      <div class="tc">
+        <div class="period">November – December</div>
+        <h3>Palm Beach Base — Lake Worth & Peanut Island</h3>
+        <p>Anchor free at Lake Worth or Peanut Island — two of the most established free anchorages on the East Coast. Protected water, easy dinghy access to West Palm Beach, PBI airport nearby for fly-in visits. This is the weekend-and-holidays base. Thanksgiving on the hook. Cost: $0 in dockage.</p>
+      </div>
+    </div>
+
+    <div class="ti">
+      <div class="td">🐚</div>
+      <div class="tc">
+        <div class="period">January – March</div>
+        <h3>The Caribbean Season — Bahamas, BVI, St. Barts</h3>
+        <p>All three boats depart West Palm Beach in a weather window. 55 miles across the Gulf Stream to West End, Grand Bahama — a 4–6 hour passage in settled weather. From there: the Abacos, Nassau, Exumas. Friends rotate in and out by flight.<br><br>
+        Longer legs extend east and south: Turks &amp; Caicos → Puerto Rico → USVI → BVI → St. Barts. These are separate 2–3 week expeditions for those with more time. The boats can also be positioned and crew flies to meet them.</p>
+      </div>
+    </div>
+
+    <div class="ti">
+      <div class="td">🌊</div>
+      <div class="tc">
+        <div class="period">February — Caymans Trip</div>
+        <h3>The Cayman Islands (Optional — Western Route)</h3>
+        <p>The Caymans sit south of Cuba and west of Jamaica — a different direction from the Bahamas/BVI route. Best approach from the US is via Cuba's southern coast or from Belize/Mexico. This is a more serious offshore passage (450–500 nm from Florida around Cuba) and works best as a dedicated 3–4 week trip. Friends with a property in the Caymans make this a natural destination stop. Most practically done with one or two boats, crew flying in and out.</p>
+      </div>
+    </div>
+
+    <div class="ti">
+      <div class="td">↑</div>
+      <div class="tc">
+        <div class="period">April – May</div>
+        <h3>North Passage — Palm Beach back to Oyster Bay</h3>
+        <p>Return run in spring. Same offshore route north — optional detour into the Chesapeake for a week of sailing (Annapolis, Eastern Shore) if the timing works. Arrive Centre Island by Memorial Day weekend, boat already on the mooring.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ ROUTE MAP ═══ -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<div style="background:#141210;padding:80px 40px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:500;
+      letter-spacing:4px;text-transform:uppercase;color:#C4A87A;margin-bottom:12px">Satellite Route Map</div>
+    <div style="width:56px;height:2px;background:#C4A87A;margin:0 0 28px"></div>
+    <h2 style="font-family:'Cormorant Garamond',serif;color:#F0EBE2;font-size:clamp(32px,5vw,56px);font-weight:400;margin-bottom:16px">
+      One boat. Four seasons. 4,000+ nautical miles.
+    </h2>
+    <p style="color:rgba(240,235,226,.7);font-size:16px;max-width:680px;margin-bottom:16px">
+      Live satellite imagery of the full route — from Oyster Bay to the Caribbean. Click any marker to explore
+      the stop in detail. Stars (★) are hidden gem anchorages off the beaten path.
+    </p>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,168,122,.15);border:1px solid rgba(196,168,122,.3);border-radius:6px;padding:8px 14px;margin-bottom:24px">
+      <span style="font-size:16px">🛰</span>
+      <span style="font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:#C4A87A;letter-spacing:.5px">ESRI WORLD IMAGERY — REAL SATELLITE TILES</span>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:24px;font-family:'Inter',sans-serif;font-size:13px;color:rgba(240,235,226,.8)">
+      <span style="display:flex;align-items:center;gap:8px">
+        <span style="display:inline-block;width:28px;height:3px;background:#4db8d4;border-radius:2px"></span>Summer NY
+      </span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span style="display:inline-block;width:28px;height:3px;background:#c8a96e;border-radius:2px"></span>Snowbird Run
+      </span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span style="display:inline-block;width:28px;height:3px;background:#2d9e6b;border-radius:2px"></span>Caribbean Circuit
+      </span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span style="display:inline-block;width:28px;height:3px;background:#9b59b6;border-radius:2px"></span>Western / Caymans
+      </span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ffd700;border:2px solid white"></span>★ Hidden gem anchorage
+      </span>
+    </div>
+
+    <div id="route-map" style="width:100%;height:750px;border-radius:14px;overflow:hidden;border:1px solid rgba(196,168,122,.2);box-shadow:0 0 60px rgba(0,0,0,.6)"></div>
+    <p style="color:rgba(240,235,226,.3);font-family:'Inter',sans-serif;font-size:12px;margin-top:14px;letter-spacing:.5px">
+      Scroll to zoom · Click markers for details · Use layer control (top-right) to toggle satellite / dark map
+    </p>
+  </div>
+</div>
+
+<style>
+.leaflet-popup-content-wrapper{background:#1C1A17!important;color:#F0EBE2!important;border:1px solid rgba(196,168,122,.4)!important;border-radius:10px!important;box-shadow:0 8px 40px rgba(0,0,0,.6)!important;font-family:'Inter',sans-serif!important;min-width:230px}
+.leaflet-popup-tip{background:#1C1A17!important}
+.leaflet-popup-content{margin:14px 16px!important;font-size:13px!important;line-height:1.6!important;color:#F0EBE2!important}
+.leaflet-popup-content b{color:#C4A87A!important;font-size:14px!important;font-family:'Cormorant Garamond',serif!important;font-weight:400!important;display:block;margin-bottom:4px}
+.leaflet-popup-content .pop-tag{font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.5;display:block;margin-bottom:5px}
+.leaflet-popup-content .pop-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.leaflet-popup-content .pop-badge{background:rgba(196,168,122,.15);border:1px solid rgba(196,168,122,.25);border-radius:4px;padding:3px 8px;font-size:11px;white-space:nowrap;color:#F0EBE2}
+.leaflet-popup-close-button{color:rgba(240,235,226,.4)!important;font-size:18px!important}
+.leaflet-popup-content .pop-voyage{font-family:'Inter',sans-serif;font-size:11px;color:#C4A87A;background:rgba(196,168,122,.12);border-radius:4px;padding:4px 8px;margin:8px 0 6px;display:inline-block;letter-spacing:.3px}
+.leaflet-control-layers{background:#1C1A17!important;border:1px solid rgba(196,168,122,.3)!important;color:#F0EBE2!important;font-family:'Inter',sans-serif!important;font-size:12px!important}
+.leaflet-control-layers label{color:#F0EBE2!important}
+</style>
+
+<script>
+(function(){
+  var map = L.map('route-map',{center:[26,-72],zoom:4,scrollWheelZoom:false,zoomControl:true});
+
+  var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+    attribution:'Imagery &copy; Esri &mdash; DigitalGlobe, GeoEye, Earthstar Geographics, USDA FSA, USGS',
+    maxZoom:19
+  });
+  var labels = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{
+    attribution:'Labels &copy; Esri',maxZoom:19,opacity:.9
+  });
+  var darkMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+    attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19
+  });
+
+  satellite.addTo(map);
+  labels.addTo(map);
+
+  L.control.layers(
+    {'🛰 Satellite (default)':satellite,'🗺 Dark Map':darkMap},
+    {'📍 Place Labels':labels},
+    {position:'topright',collapsed:false}
+  ).addTo(map);
+
+  // ── Routes — accurate offshore water-only sailing routes ─────────
+  var summer = [
+    [40.873,-73.526],[40.960,-72.290],[41.100,-72.000],
+    [41.038,-71.955],[41.169,-71.577],[41.281,-70.099]
+  ];
+  // Snowbird: offshore NJ coast, past Chesapeake entrance offshore, into Norfolk
+  var snowbird = [
+    [40.873,-73.526],[40.460,-74.010],[39.500,-73.900],
+    [38.930,-74.970],[38.200,-74.800],[37.000,-75.900],
+    [36.930,-76.010],[36.846,-76.285],[36.100,-76.100],
+    [35.500,-76.200],[34.720,-76.660],[33.850,-77.950],
+    [33.100,-79.200],[32.776,-79.931],[32.076,-81.086],
+    [30.700,-81.450],[29.894,-81.313],[28.400,-80.600],
+    [26.710,-80.053]
+  ];
+  var returnN = [
+    [26.710,-80.053],[28.400,-80.600],[29.894,-81.313],
+    [30.700,-81.450],[32.076,-81.086],[32.776,-79.931],
+    [33.100,-79.200],[33.850,-77.950],[34.720,-76.660],
+    [35.500,-76.200],[36.100,-76.100],[36.846,-76.285],
+    [36.930,-76.010],[37.000,-75.900],[38.200,-74.800],
+    [38.930,-74.970],[39.500,-73.900],[40.460,-74.010],
+    [40.873,-73.526]
+  ];
+  // Caribbean: Bahamas → routes east of Hispaniola via Turks Island Passage
+  var carib = [
+    [26.710,-80.053],[26.689,-78.992],[25.047,-77.355],
+    [24.439,-76.474],[22.876,-74.185],[21.787,-72.203],
+    [21.300,-71.000],[20.200,-70.000],[19.900,-69.000],
+    [18.600,-68.200],[18.220,-66.590],[18.464,-64.617],
+    [17.897,-62.849]
+  ];
+  // Caymans: west through Windward Passage (east of Cuba), south to Caymans
+  var caymans = [
+    [26.710,-80.053],[26.689,-78.992],[22.500,-74.000],
+    [20.950,-73.700],[19.900,-74.500],[19.700,-76.500],
+    [19.800,-79.000],[19.700,-81.500],[19.313,-81.254]
+  ];
+
+  L.polyline(summer,   {color:'#4db8d4',weight:3,opacity:.9}).addTo(map);
+  L.polyline(snowbird, {color:'#c8a96e',weight:3,dashArray:'10,6',opacity:.9}).addTo(map);
+  L.polyline(returnN,  {color:'#c8a96e',weight:2,dashArray:'4,8',opacity:.4}).addTo(map);
+  L.polyline(carib,    {color:'#2d9e6b',weight:3,opacity:.9}).addTo(map);
+  L.polyline(caymans,  {color:'#9b59b6',weight:2,dashArray:'7,5',opacity:.8}).addTo(map);
+
+  // ── Marker factories ──────────────────────────────
+  function mainIcon(col){
+    return L.divIcon({html:'<div style="width:14px;height:14px;border-radius:50%;background:'+col+';border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,.6)"></div>',className:'',iconSize:[14,14],iconAnchor:[7,7]});
+  }
+  function gemIcon(){
+    return L.divIcon({html:'<div style="width:13px;height:13px;border-radius:50%;background:#ffd700;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,.6)"></div>',className:'',iconSize:[13,13],iconAnchor:[6,6]});
+  }
+
+  function mk(coords,icon,name,tag,voyage,desc,badges){
+    var b=(badges||[]).map(function(x){return '<span class="pop-badge">'+x+'</span>';}).join('');
+    var v=voyage?'<div class="pop-voyage">🧭 '+voyage+'</div>':'';
+    var popup='<span class="pop-tag">'+tag+'</span><b>'+name+'</b>'+v+desc+(b?'<div class="pop-row">'+b+'</div>':'');
+    L.marker(coords,{icon:icon}).addTo(map).bindPopup(popup,{maxWidth:270});
+  }
+
+  // ── Main stops ────────────────────────────────────
+  mk([40.873,-73.526],mainIcon('#4db8d4'),'Centre Island, NY','HOME BASE · MAY–OCT',null,
+    'Free mooring off Montecito Drive. Outdoor shower, grill, sauna &amp; gym on the property. Seawanhaka Corinthian Yacht Club 500m east.',
+    ['🏠 Home base','⛵ Seawanhaka nearby','🚿 Shore facilities']);
+
+  mk([41.038,-71.955],mainIcon('#4db8d4'),'Montauk, NY','SUMMER',
+    '80nm · ~14hrs from Oyster Bay',
+    'World-class striped bass &amp; bluefish. Canyon runs for yellowfin &amp; bluefin tuna July–Aug. Anchor in Lake Montauk, dinghy to town. Gurney\'s &amp; Surf Lodge for nights out.',
+    ['🎣 World-class fishing','🌊 Surfing','🎉 Gurney\'s · Surf Lodge']);
+
+  mk([41.169,-71.577],mainIcon('#4db8d4'),'Block Island, RI','SUMMER',
+    '55nm · ~9hrs from Montauk',
+    'Best kiteboarding in the Northeast — consistent 15–25 kts. Great Salt Pond anchorage holds 500+ boats on peak weekends. Mohegan Bluffs are stunning.',
+    ['🪁 Best kite NE','🏝️ Mohegan Bluffs','🎉 The Oar bar']);
+
+  mk([41.281,-70.099],mainIcon('#4db8d4'),'Nantucket, MA','SUMMER',
+    '75nm · ~13hrs from Block Island',
+    'Anchor in Madaket or pick up a town mooring. Great Point striped bass, bonito in September. The Chicken Box for late nights. Buy live lobsters at the dock and boil them in the cockpit.',
+    ['🎣 Great Point fishing','🥂 Chicken Box','🦞 Dock lobsters']);
+
+  mk([36.846,-76.285],mainIcon('#c8a96e'),'Norfolk, VA','SNOWBIRD · ICW MILE 0',
+    '315nm · ~4–5 days from Oyster Bay (offshore)',
+    'ICW officially starts here. Good fuel docks, last major provisioning before the Carolinas. Anchor off Hospital Point for free.',
+    ['⛽ Fuel up','🛒 Provision','🎯 ICW start']);
+
+  mk([32.776,-79.931],mainIcon('#c8a96e'),'Charleston, SC','SNOWBIRD STOP',
+    '165nm · ~28hrs from Norfolk',
+    'One of the best food cities in America. FIG, Husk, The Ordinary. Anchor in the Ashley River. Nearby: Capers Island wilderness, Bull Island (boat access only), ACE Basin.',
+    ['🌺 Best food ICW','🌿 Capers Island','🎉 King Street nights']);
+
+  mk([32.076,-81.086],mainIcon('#c8a96e'),'Savannah, GA','SNOWBIRD STOP',
+    '60nm · ~10hrs from Charleston',
+    'Historic waterfront, River Street bars and restaurants. Good fuel stop and easy overnight anchorage. The city is worth a walk — then keep moving south.',
+    ['⛽ Fuel stop','🍺 River Street','🌿 Historic waterfront']);
+
+  mk([29.894,-81.313],mainIcon('#c8a96e'),'St. Augustine, FL','SNOWBIRD STOP',
+    '165nm · ~28hrs from Savannah',
+    'Oldest city in the US and one of the best stops on the ICW. Anchor in the basin, dinghy to the Bridge of Lions, walk the old city. Great restaurants, surprisingly good nightlife.',
+    ['🏛️ Oldest US city','🍽️ Great dining','⚓ Free anchorage']);
+
+  mk([26.710,-80.053],mainIcon('#c8a96e'),'Palm Beach / Lake Worth, FL','WINTER BASE',
+    '165nm · ~28hrs from St. Augustine',
+    'Free anchorage at Lake Worth and Peanut Island — among the most established free anchoring on the East Coast. 5 months at $0/month. PBI airport 15 min away for crew fly-ins.',
+    ['🌴 Free anchorage','✈️ PBI airport close','🎳 West Palm nightlife']);
+
+  mk([26.689,-78.992],mainIcon('#2d9e6b'),'West End, Grand Bahama','GULF STREAM CROSSING',
+    '55nm · ~8–10hrs from Palm Beach',
+    'First landfall in the Bahamas. Cross the Gulf Stream in a weather window — typically 6–10 hours under sail. Clear customs here or continue to Nassau. Protected anchorage behind the reef.',
+    ['🛂 First Bahamas landfall','🌊 Gulf Stream crossed','⚓ Protected anchorage']);
+
+  mk([25.047,-77.355],mainIcon('#2d9e6b'),'Nassau, Bahamas','CARIBBEAN · CLEAR IN HERE',
+    '80nm · ~14hrs from West End',
+    'Clear customs here. Arawak Cay Fish Fry for conch salad and Kalik beer — the most authentic food experience in the Bahamas. Atlantis for a wild night if the crew wants it.',
+    ['🛂 Customs clearance','🐚 Conch salad','🎰 Atlantis option']);
+
+  mk([23.969,-76.166],mainIcon('#2d9e6b'),'Exumas, Bahamas','CARIBBEAN · THE BEST WATER',
+    '150nm · ~25hrs from Nassau',
+    'The Exumas chain is widely considered the most beautiful sailing grounds in the Atlantic. Staniel Cay, Warderick Wells, swimming pigs, nurse sharks, lobster free-diving. The trip centerpiece.',
+    ['🐠 Best water Atlantic','🦞 Free-dive lobster','🐷 Swimming pigs']);
+
+  mk([21.787,-72.203],mainIcon('#2d9e6b'),'Turks &amp; Caicos','CARIBBEAN',
+    '350nm · ~58hrs from Exumas',
+    'Long Bay Beach on Provo is a world-class kite destination. French Cay shark sanctuary for snorkeling. South Caicos is a working fishing village — zero tourists, completely authentic.',
+    ['🪁 World-class kite','🦈 French Cay diving','🐚 Conch everywhere']);
+
+  mk([18.220,-66.590],mainIcon('#2d9e6b'),'Puerto Rico','CARIBBEAN · FLY-IN HUB',
+    '450nm · ~75hrs via Turks Island Passage',
+    'San Juan for crew fly-ins (SJU airport). Old San Juan has excellent bars and restaurants. Culebra and Vieques nearby — pristine beaches, far quieter than the main island.',
+    ['✈️ SJU crew hub','🏝️ Culebra beaches','🎉 Old San Juan']);
+
+  mk([18.464,-64.617],mainIcon('#2d9e6b'),'British Virgin Islands','CARIBBEAN · THE CLASSIC',
+    '70nm · ~12hrs from Puerto Rico',
+    'World\'s most popular sailing grounds. Norman Island, The Baths, Jost Van Dyke, Anegada. Soggy Dollar Bar invented the Painkiller. BVI mooring balls required in most spots.',
+    ['⛵ Best sailing ground','🍹 Soggy Dollar','🏝️ Anegada lobster']);
+
+  mk([17.897,-62.849],mainIcon('#2d9e6b'),'St. Barts','CARIBBEAN · NYE',
+    '50nm · ~9hrs from BVI',
+    'French Riviera of the Caribbean. Gustavia harbor on New Year\'s Eve is one of the great parties in the Caribbean. Colombier Beach is only accessible by boat — anchor off and swim ashore.',
+    ['🥂 NYE harbor party','🏖️ Colombier by boat','🇫🇷 French restaurants']);
+
+  mk([19.313,-81.254],mainIcon('#9b59b6'),'Cayman Islands','WESTERN ROUTE',
+    '620nm · ~6 days from Palm Beach via Windward Passage',
+    'Bloody Bay Wall on Little Cayman — ranked one of the world\'s top 5 dive sites. Stingray City. Friends with property on-island. Seven Mile Beach is genuinely one of the world\'s best beaches.',
+    ['🤿 Bloody Bay Wall','🐟 Stingray City','🏖️ Seven Mile Beach']);
+
+  // ── Hidden gem anchorages ──────────────────────────
+  mk([40.73,-72.83],gemIcon(),'★ Shelter Island, NY','HIDDEN GEM · LI SOUND',null,
+    'Quietly beautiful two-boat anchorage in the North Haven peninsula. Almost no boat traffic midweek. Kayak the creeks, dinghy to North Fork wineries. Off the radar for most Sound sailors.',
+    ['🌿 Peaceful','🍷 Winery access','🎣 Striper fishing']);
+
+  mk([38.12,-76.40],gemIcon(),'★ St. Mary\'s River, MD','HIDDEN GEM · CHESAPEAKE',null,
+    'Historically significant (Maryland\'s first colonial settlement) and completely uncrowded. Anchor in the river, row ashore to the reconstructed 1634 settlement. Crab pots off the stern.',
+    ['🦀 Blue crab','🏛️ Colonial history','🌿 Undeveloped banks']);
+
+  mk([37.99,-76.29],gemIcon(),'★ Smith Island, MD','HIDDEN GEM · CHESAPEAKE',null,
+    'The only inhabited offshore island in Maryland. No cars. Three tiny villages. Time-stopped watermen community. Arrive by boat, eat soft-shell crab, buy Smith Island cake from a kitchen window.',
+    ['🦀 Soft-shell crab','🏘️ No cars, no crowds','🎂 Famous layer cake']);
+
+  mk([34.72,-76.66],gemIcon(),'★ Beaufort, NC — Core Sound','HIDDEN GEM · ICW',null,
+    'Beaufort NC (not SC) is the single best ICW stop most boats skip. Town dock on the waterfront, wild horses on Shackleford Banks visible across the anchorage, excellent local seafood.',
+    ['🐎 Wild horse island','🦞 Local shrimp','⚓ Free town anchorage']);
+
+  mk([31.80,-81.15],gemIcon(),'★ Cumberland Island, GA','HIDDEN GEM · ICW',null,
+    'Only accessible by boat or ferry. Wild horses roam a pristine National Seashore. Anchor off Dungeness, dinghy to the beach, hike through live oak forests hung with Spanish moss. Zero development.',
+    ['🐎 Wild horses','🌿 National Seashore','⛺ Beach camping']);
+
+  mk([24.706,-81.106],gemIcon(),'★ Key West, FL (Optional Detour)','OPTIONAL DETOUR',null,
+    'Takes you off the main route but worth it for the crew that wants a night of it. Mallory Square sunset ritual, Duval Street, the best conch chowder in Florida. Anchor in Christmas Tree Cove.',
+    ['🎉 Duval Street','🐚 Conch chowder','🌅 Mallory sunset']);
+
+  mk([26.517,-78.695],gemIcon(),'★ Grand Bahama — Inland Waterway','HIDDEN GEM · BAHAMAS',
+    'After crossing the Gulf Stream, explore Grand Bahama\'s inland waterway — a protected backcountry channel through mangroves, bone-flat shallows, and zero other boats. Pure wilderness.',
+    ['🌿 Mangrove wilderness','🎣 Bonefish flats','🤫 Zero crowds']);
+
+  mk([24.439,-76.474],gemIcon(),'★ Warderick Wells Cay, Exumas','HIDDEN GEM · EXUMAS',
+    'Heart of the Exuma Land &amp; Sea Park. No fishing allowed inside (so the fish are huge and tame). The clearest water in the Bahamas. Anchor in the blue hole. Swim with giant rays from the boat.',
+    ['🐠 Pristine park','💎 Clearest water','🚫 No fishing (by design)']);
+
+  mk([24.170,-76.436],gemIcon(),'★ Shroud Cay, Exumas','HIDDEN GEM · EXUMAS',
+    'Uninhabited. Tidal creeks you can kayak through the island at high tide. Camp on the eastern ocean beach — no facilities, no other people. Catch fish for dinner. One of the most beautiful places on earth.',
+    ['🏝️ Uninhabited','🛶 Kayak creeks','🔥 Beach camp']);
+
+  mk([22.876,-74.185],gemIcon(),'★ Acklins &amp; Crooked Island, Bahamas','HIDDEN GEM · FAR BAHAMAS',
+    'One of the least-visited island groups in the Bahamas. Pristine bonefish flats, no charter boats, wild beaches stretching for miles, a tiny settlement with the friendliest people in the Caribbean.',
+    ['🎣 Best bonefishing','🌊 Zero other boats','🌿 Untouched reef']);
+
+  mk([20.94,-73.59],gemIcon(),'★ Mayaguana, Bahamas','HIDDEN GEM · FAR BAHAMAS',
+    'The southernmost major Bahamian island before the TCI. Almost no one goes here. Miles of pink-tinged beach, flamingos in the salt lake interior, fishing that hasn\'t been touched in years.',
+    ['🦩 Flamingos','🎣 Virgin fishing','🏖️ Pink sand beaches']);
+
+  mk([21.46,-71.13],gemIcon(),'★ South Caicos, TCI','HIDDEN GEM · TURKS &amp; CAICOS',
+    'A working conch fishing village with almost no tourist infrastructure. Buy conch from boats coming in at dawn, watch the fishermen clean the day\'s catch at the dock, eat at a local kitchen. Authentic.',
+    ['🐚 Conch village','🎣 Working fishing port','🤫 Zero tourists']);
+
+  mk([21.61,-71.64],gemIcon(),'★ West Caicos, TCI','HIDDEN GEM · TURKS &amp; CAICOS',
+    'Uninhabited. Wall diving on the north side drops to 6,000 feet starting at 40 feet. Anchor in the northwest bay, dinghy to the beach, free-dive the wall. One of the most remote good dives in the Caribbean.',
+    ['🤿 World-class wall','🌿 Uninhabited island','⚓ Deserted anchorage']);
+
+  mk([18.732,-64.330],gemIcon(),'★ Anegada, BVI','HIDDEN GEM · BVI',
+    'Flat coral atoll — the only non-volcanic island in the BVI. Endless bonefishing flats, wild flamingos, Cow Wreck Beach Bar, and the best lobster dinner of your life from fishermen who caught it that morning. Most BVI charterers never go here.',
+    ['🎣 Bonefish flats','🦩 Wild flamingos','🦞 Freshest lobster BVI']);
+
+  mk([18.33,-64.62],gemIcon(),'★ Norman Island / The Indians, BVI','HIDDEN GEM · BVI',
+    'Four volcanic pinnacles rising from the sea — Willy T floating bar anchored 200 meters away. Swim through caves at Treasure Point (James Bay). Fish off the boat between pinnacles for snapper and jacks.',
+    ['🤿 Treasure caves','🍹 Willy T bar','🎣 Pinnacle fishing']);
+
+  mk([17.923,-62.836],gemIcon(),'★ Colombier Beach, St. Barts','HIDDEN GEM · ST. BARTS',
+    'Only accessible by boat or a 45-min hike. Zero facilities. Zero development. Anchor off, swim ashore through calm water, spend the day on one of the finest beaches in the Caribbean without another soul.',
+    ['🏖️ Boat access only','🌊 Zero development','🤫 Completely undiscovered']);
+
+  mk([16.047,-61.726],gemIcon(),'★ Îles des Saintes, Guadeloupe','HIDDEN GEM · EASTERN CARIB',
+    'A group of small islands south of Guadeloupe — almost entirely French-speaking, completely bypassed by the charter crowd. Anchor in Terre-de-Haut\'s protected bay, eat bouillabaisse ashore, explore the Napoleon-era fort above town.',
+    ['🇫🇷 Authentic French','🏰 Fort Napoleon','🌊 Stunning protected bay']);
+
+  mk([15.53,-61.45],gemIcon(),'★ Dominica — Prince Rupert Bay','HIDDEN GEM · EASTERN CARIB',
+    'The "Nature Island" — most undeveloped in the eastern Caribbean. Boiling Lake, jungle hikes, sperm whales offshore year-round. Anchor in Prince Rupert Bay, take a river tube tour, spend a week not seeing another yacht.',
+    ['🐋 Sperm whales','🌋 Boiling lake hike','🌿 Most untouched island']);
+
+})();
+</script>
+
+<!-- ═══ CARIBBEAN ROUTE ═══ -->
+<div class="ocean-bg">
+  <div class="wrap">
+    <div class="section-tag">The Caribbean Circuit</div>
+    <div class="divider"></div>
+    <h2>Two routes. Endless destinations.</h2>
+    <p style="opacity:.85;max-width:680px">From Palm Beach, two different Caribbean adventures branch out. The Eastern Route covers the Bahamas, Turks &amp; Caicos, Puerto Rico, USVI, BVI, and St. Barts — classic Caribbean sailing, accessible and spectacular. The Western Route reaches the Caymans via Cuba's southern coast — a bigger passage, but a serious expedition with a world-class destination at the end.</p>
+
+    <div class="route-band">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Route A — Eastern Caribbean</div>
+      <div class="route-stops">
+        <div class="rs"><div class="ri">🌴</div><div class="rn">Palm Beach</div><div class="rd">Start</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🐠</div><div class="rn">Bahamas</div><div class="rd">55 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🏖️</div><div class="rn">Exumas</div><div class="rd">200 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🌊</div><div class="rn">Turks &amp; Caicos</div><div class="rd">+300 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🌺</div><div class="rn">Puerto Rico</div><div class="rd">+350 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">⛵</div><div class="rn">BVI / USVI</div><div class="rd">+100 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🥂</div><div class="rn">St. Barts</div><div class="rd">+50 nm</div></div>
+      </div>
+    </div>
+
+    <div class="route-band" style="margin-top:20px">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Route B — Western Circuit (Caymans)</div>
+      <div class="route-stops">
+        <div class="rs"><div class="ri">🌴</div><div class="rn">Palm Beach</div><div class="rd">Start</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🐠</div><div class="rn">Bahamas</div><div class="rd">55 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🗺️</div><div class="rn">Cuba South Coast</div><div class="rd">+300 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🏝️</div><div class="rn">Cayman Islands</div><div class="rd">+200 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🏔️</div><div class="rn">Jamaica</div><div class="rd">+180 nm</div></div>
+        <div class="arrow">→</div>
+        <div class="rs"><div class="ri">🌺</div><div class="rn">Puerto Rico</div><div class="rd">+340 nm</div></div>
+      </div>
+    </div>
+
+    <div class="g3" style="margin-top:40px">
+      <div class="card-dark">
+        <div style="font-size:28px;margin-bottom:12px">🐠</div>
+        <h3 style="color:var(--gold)">Bahamas + Exumas</h3>
+        <p style="opacity:.8;font-size:15px">The easiest Caribbean crossing from Florida. The Exumas chain is widely considered the most beautiful sailing grounds in the Atlantic — clear turquoise water, deserted cays, fishing off the stern, no crowds. 2–3 weeks. Everyone's first Caribbean trip.</p>
+      </div>
+      <div class="card-dark">
+        <div style="font-size:28px;margin-bottom:12px">⛵</div>
+        <h3 style="color:var(--gold)">BVI &amp; St. Barts</h3>
+        <p style="opacity:.8;font-size:15px">The British and US Virgin Islands are the world's most popular sailing destination for a reason. Norman Island, the Baths, Jost Van Dyke's Soggy Dollar Bar. St. Barts adds the French Riviera vibe. Fly crew into San Juan, sail the islands for 2 weeks.</p>
+      </div>
+      <div class="card-dark">
+        <div style="font-size:28px;margin-bottom:12px">🏝️</div>
+        <h3 style="color:var(--gold)">Cayman Islands</h3>
+        <p style="opacity:.8;font-size:15px">A more serious offshore passage but a standout destination. Grand Cayman's Seven Mile Beach, Little Cayman's wall diving, Stingray City. Friends with property on-island make this a real home-port stop — not just a marina.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ THE FLEET ═══ -->
+<div class="dark">
+  <div class="wrap">
+    <div class="section-tag">The Fleet</div>
+    <div class="divider"></div>
+    <h2>Three captains. One fleet.</h2>
+    <p style="opacity:.85;max-width:640px">Each person owns and operates their own boat. No shared equity, no committee decisions. You sail independently — but cruise together. The group trips are where you coordinate; the rest of the year each boat runs on its own schedule.</p>
+
+    <div class="g3">
+      <div class="owner-card">
+        <div class="oc-icon">🧭</div>
+        <h3>Boat #1 — Ragnar</h3>
+        <div class="sub">Home: Centre Island, Oyster Bay</div>
+        <ul class="crew-li">
+          <li>Skipper: Ragnar</li>
+          <li>Summer: Centre Island mooring</li>
+          <li>Winter: Lake Worth anchorage</li>
+          <li>Circuit: Full NY–Florida–Caribbean</li>
+          <li>+3–4 rotating crew per trip</li>
+        </ul>
+      </div>
+      <div class="owner-card">
+        <div class="oc-icon">⚓</div>
+        <h3>Boat #2 — Max</h3>
+        <div class="sub">Home base: TBD</div>
+        <ul class="crew-li">
+          <li>Skipper: Max</li>
+          <li>Join summer Block Island/Nantucket runs</li>
+          <li>Join snowbird run (or sail separately)</li>
+          <li>Join Bahamas &amp; Caribbean trips</li>
+          <li>+3–4 rotating crew per trip</li>
+        </ul>
+      </div>
+      <div class="owner-card">
+        <div class="oc-icon">🌊</div>
+        <h3>Boat #3 — Zack</h3>
+        <div class="sub">Home base: TBD</div>
+        <ul class="crew-li">
+          <li>Skipper: Zack</li>
+          <li>Join summer Block Island/Nantucket runs</li>
+          <li>Join snowbird run (or sail separately)</li>
+          <li>Join Bahamas &amp; Caribbean trips</li>
+          <li>+3–4 rotating crew per trip</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="share-box">
+      <h3>The Crew Rotation Model</h3>
+      <p style="opacity:.85;font-size:16px">On any Caribbean trip, the three boats carry 12–15 people total. Ragnar, Max, and Zack are aboard the full trip. Friends rotate in and out by flight — fly into Nassau, George Town, San Juan, or Grand Cayman, sail for 5–10 days, fly home. The boats and captains stay; the crew is whoever can make the dates work. That's how you run a 15-person trip without 15 people all taking the same three weeks off.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ COST DASHBOARD ═══ -->
+<div class="wrap">
+  <div class="section-tag">The Numbers</div>
+  <div class="divider"></div>
+  <h2>Full cost dashboard — ownership &amp; trips.</h2>
+
+  <!-- Annual ownership -->
+  <h3 style="margin-bottom:4px;margin-top:8px">Annual Ownership Cost — Per Boat</h3>
+  <p style="color:#666;font-size:15px;margin-bottom:0">Based on free mooring + free anchorage, DIY maintenance, sailing south not trucking, basic insurance on a $20K hull.</p>
+  <table class="ct">
+    <thead>
+      <tr><th>Item</th><th>Low</th><th>High</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr class="subhead"><td colspan="4">One-Time Setup (Year 1 Only)</td></tr>
+      <tr>
+        <td>Purchase price</td><td>$15,000</td><td>$25,000</td>
+        <td>35–38' offshore sloop, surveyed</td>
+      </tr>
+      <tr>
+        <td>Pre-purchase survey</td><td>$600</td><td>$900</td>
+        <td>Mandatory — non-negotiable</td>
+      </tr>
+      <tr>
+        <td>Upgrades (solar, dinghy, monitoring, fans)</td><td>$4,000</td><td>$7,000</td>
+        <td>Makes anchor-out lifestyle work</td>
+      </tr>
+      <tr class="subhead"><td colspan="4">Annual Operating</td></tr>
+      <tr>
+        <td>Oyster Bay mooring permit + tackle</td><td>$500</td><td>$800</td>
+        <td>Your property — no slip fees</td>
+      </tr>
+      <tr>
+        <td>Winter anchorage (Lake Worth / Peanut Island)</td><td>$0</td><td>$0</td>
+        <td>Free public anchorage</td>
+      </tr>
+      <tr>
+        <td>Insurance (full coverage, offshore)</td><td>$900</td><td>$1,800</td>
+        <td>Liability only: subtract ~$600</td>
+      </tr>
+      <tr>
+        <td>Snowbird run — fuel, food, occasional dockage</td><td>$2,000</td><td>$3,500</td>
+        <td>Both directions, anchoring most nights</td>
+      </tr>
+      <tr>
+        <td>Engine service + parts + mechanical reserve</td><td>$600</td><td>$1,200</td>
+        <td>Annual regardless of hours</td>
+      </tr>
+      <tr>
+        <td>Routine maintenance + bottom paint + haul</td><td>$1,500</td><td>$2,800</td>
+        <td>Annual haul averaged over 2-year cycle</td>
+      </tr>
+      <tr>
+        <td>Summer cruises (Montauk, Block Is., Nantucket)</td><td>$1,200</td><td>$2,000</td>
+        <td>Moorings, fuel, provisions, incidentals</td>
+      </tr>
+      <tr>
+        <td>Surprise / miscellaneous reserve</td><td>$1,500</td><td>$2,500</td>
+        <td>Something always needs attention</td>
+      </tr>
+      <tr class="total">
+        <td><strong>Annual total — per boat</strong></td>
+        <td><strong>$8,200</strong></td>
+        <td><strong>$14,600</strong></td>
+        <td><strong>~$850–$1,200/month all-in</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note"><strong>Rigging caveat:</strong> If standing rigging hasn't been replaced in 15+ years, add $6,000–$9,000 as a one-time near-term cost. Always ask the seller for rigging replacement history. This is the most important question during survey.</div>
+
+  <!-- Trip costs -->
+  <h3 style="margin-top:56px;margin-bottom:4px">Trip-Specific Costs — Bahamas (2 Weeks, 3 Boats)</h3>
+  <p style="color:#666;font-size:15px;margin-bottom:0">All three boats, 12–15 people total, departing West Palm Beach for the Bahamas.</p>
+  <table class="ct">
+    <thead>
+      <tr><th>Item</th><th>Per Boat</th><th>Per Person (4–5 aboard)</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bahamas cruising permit</td><td>$350</td><td>$75–$90</td>
+        <td>Required for all foreign boats</td>
+      </tr>
+      <tr>
+        <td>Gulf Stream crossing fuel</td><td>$150–$250</td><td>$35–$55</td>
+        <td>55 nm, mostly under sail</td>
+      </tr>
+      <tr>
+        <td>In-Bahamas fuel (14 days)</td><td>$500–$900</td><td>$110–$190</td>
+        <td>Fuel is expensive in Bahamas — plan for it</td>
+      </tr>
+      <tr>
+        <td>Provisioning (food, drinks, 14 days)</td><td>$1,200–$2,000</td><td>$260–$430</td>
+        <td>$65–$100/person/day — cook aboard</td>
+      </tr>
+      <tr>
+        <td>Marina / mooring nights (4–6 nights)</td><td>$600–$1,000</td><td>$130–$220</td>
+        <td>Nassau, Staniel Cay — rest free at anchor</td>
+      </tr>
+      <tr>
+        <td>Activities (dive trips, fishing guides, etc.)</td><td>$300–$700</td><td>$75–$160</td>
+        <td>Bonefish guide, dive charter, etc.</td>
+      </tr>
+      <tr>
+        <td>Owner cost recovery from crew</td><td>$1,000</td><td>$210–$260</td>
+        <td>Crew chips in toward annual boat ownership</td>
+      </tr>
+      <tr class="total">
+        <td><strong>Total — 14-day Bahamas trip</strong></td>
+        <td><strong>$4,100–$6,200</strong></td>
+        <td><strong>~$1,000–$1,500</strong></td>
+        <td><strong>+ flights to Palm Beach</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- BVI trip -->
+  <h3 style="margin-top:48px;margin-bottom:4px">Trip-Specific Costs — BVI / USVI (2 Weeks, Fly-In Crew)</h3>
+  <p style="color:#666;font-size:15px;margin-bottom:0">Boats positioned in Puerto Rico or USVI, crew flies into San Juan or STT.</p>
+  <table class="ct">
+    <thead>
+      <tr><th>Item</th><th>Per Boat</th><th>Per Person (4–5 aboard)</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Provisioning (14 days)</td><td>$1,200–$2,000</td><td>$260–$430</td>
+        <td>Chandleries in St. Thomas, San Juan</td>
+      </tr>
+      <tr>
+        <td>Fuel</td><td>$500–$900</td><td>$110–$195</td>
+        <td>Island-hopping, mostly sail</td>
+      </tr>
+      <tr>
+        <td>BVI cruising permit + cruising fees</td><td>$200–$400</td><td>$45–$90</td>
+        <td>Required for BVI entry</td>
+      </tr>
+      <tr>
+        <td>Mooring balls (BVI requires them in many spots)</td><td>$600–$1,000</td><td>$130–$220</td>
+        <td>$30–$50/night — Bight, Bitter End, etc.</td>
+      </tr>
+      <tr>
+        <td>Restaurants / bars ashore (Soggy Dollar, Corsairs, etc.)</td><td>$500–$900</td><td>$120–$200</td>
+        <td>Lunch-only strategy keeps this lower</td>
+      </tr>
+      <tr>
+        <td>Owner cost recovery</td><td>$1,000</td><td>$210–$260</td>
+        <td>Crew chip-in toward annual ownership</td>
+      </tr>
+      <tr class="total">
+        <td><strong>Total — 14-day BVI trip</strong></td>
+        <td><strong>$4,000–$6,200</strong></td>
+        <td><strong>~$1,000–$1,500</strong></td>
+        <td><strong>+ flight to San Juan or STT</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note" style="margin-top:24px">
+    <strong>The comparison:</strong> A 1-week bareboat charter for the same boat in the BVI runs $4,000–$7,000 <em>before</em> provisioning, fuel, or BVI fees. For 14 days for 4–5 people, you'd pay $12,000–$20,000. The Captains model delivers the same experience for $4,000–$6,200 per boat — with three boats rafted together and people you actually know.
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kv">~$20K</div><div class="kl">All-in purchase &amp; setup (year 1)</div></div>
+    <div class="kpi"><div class="kv">~$11K/yr</div><div class="kl">Annual operating (midpoint)</div></div>
+    <div class="kpi"><div class="kv">~$1,200</div><div class="kl">Per person, 2-week Bahamas trip</div></div>
+  </div>
+</div>
+
+<!-- ═══ WHAT TO DO NEXT ═══ -->
+<div class="sand-bg">
+  <div class="wrap">
+    <div class="section-tag">The Path Forward</div>
+    <div class="divider"></div>
+    <h2>Five steps to making this real.</h2>
+    <div class="g2">
+      <div>
+        <div class="card" style="margin-bottom:20px">
+          <h3>1. Confirm the mooring permit</h3>
+          <p>Call Oyster Bay Town Hall / Bay Constable's office. Confirm a mooring permit is available for your waterfront on Montecito Drive. This is the keystone of the whole plan — if the mooring doesn't work, everything else changes.</p>
+        </div>
+        <div class="card" style="margin-bottom:20px">
+          <h3>2. Find the boat</h3>
+          <p>Search YachtWorld, BoatTrader, and Cruisers Forum classifieds. Target 35–38-foot offshore sloops under $25,000. Narrow to boats with: low engine hours, recent standing rigging, working autopilot, and a Yanmar diesel. Have a surveyor inspect before signing.</p>
+        </div>
+        <div class="card">
+          <h3>3. Pre-purchase survey</h3>
+          <p>Non-negotiable. Budget $900–$1,200 for a marine surveyor plus sea trial. Two things to ask explicitly: when was standing rigging last replaced, and what is the actual engine hour count. These two items determine whether the $15K boat is actually a $15K boat or a $25K boat.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:20px">
+          <h3>4. Year-one upgrades</h3>
+          <p>Once the boat is in hand: install 200–400W solar, replace batteries if needed, get a reliable dinghy + 5hp outboard, add a cellular bilge alarm (Siren Marine or BoatCommand), and verify all nav electronics. Budget $5,000–$8,000. This is what makes the anchor-out lifestyle reliable.</p>
+        </div>
+        <div class="card">
+          <h3>5. Set the first group date</h3>
+          <p>Pick a weekend in August — Block Island or Nantucket — and commit it. Max and Zack need a real date to aim toward, not an open-ended intention. Once three boats are pointed at the same anchorage on the same weekend, the Captains fleet is real. The Bahamas trip books itself from there.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--navy);color:white;border-radius:14px;padding:36px;margin-top:40px">
+      <h3 style="color:var(--gold);margin-bottom:14px">Where to Search for Boats Right Now</h3>
+      <div class="g3" style="margin-top:0">
+        <div>
+          <div style="font-weight:700;margin-bottom:6px">Broker Listings</div>
+          <ul style="list-style:none;font-size:14px;opacity:.8;line-height:2">
+            <li>YachtWorld.com</li>
+            <li>Boats.com</li>
+            <li>BoatTrader.com</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700;margin-bottom:6px">Owner Direct</div>
+          <ul style="list-style:none;font-size:14px;opacity:.8;line-height:2">
+            <li>Cruisers Forum classifieds</li>
+            <li>Facebook: "Sailboats for Sale"</li>
+            <li>SailingAnarchy classifieds</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700;margin-bottom:6px">Specialists</div>
+          <ul style="list-style:none;font-size:14px;opacity:.8;line-height:2">
+            <li>TheMultihullCompany.com</li>
+            <li>CatamaranSite.com (if switching to cat)</li>
+            <li>Ex-charter fleet retirements</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example listing callout -->
+    <div style="margin-top:40px;background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+      <div style="padding:24px 28px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--ocean);margin-bottom:8px">Real Listing — Facebook Marketplace</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--ink)">This is exactly the boat we're talking about.</div>
+          <div style="font-size:14px;color:var(--ink-2);margin-top:6px">Well-maintained offshore sloop. Garmin chartplotter, Raytheon instruments, propane stove + oven, double V-berth, teak interior throughout. In budget, ready to go.</div>
+        </div>
+        <a href="https://www.facebook.com/marketplace/item/764234892979410/?referralSurface=messenger_banner&referralCode=2" target="_blank" rel="noopener"
+          style="display:inline-block;padding:14px 28px;background:var(--accent);color:var(--bg);border-radius:4px;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-decoration:none;white-space:nowrap">
+          View Listing →
+        </a>
+      </div>
+      <!-- 6-photo grid from the actual listing -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:220px 220px;gap:3px">
+        <div style="position:relative;overflow:hidden">
+          <img src="boat-galley.jpg" style="width:100%;height:100%;object-fit:cover" alt="Galley — propane stove and double sink" onerror="this.parentElement.style.background='#1C1A17';this.style.display='none'"/>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:10px 12px;color:white;font-family:'Inter',sans-serif">
+            <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-bottom:2px">Galley</div>
+            <div style="font-size:12px;font-weight:600">Propane stove + oven, double sink</div>
+          </div>
+        </div>
+        <div style="position:relative;overflow:hidden">
+          <img src="boat-nav.jpg" style="width:100%;height:100%;object-fit:cover" alt="Navigation station with charts and instruments" onerror="this.parentElement.style.background='#1C1A17';this.style.display='none'"/>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:10px 12px;color:white;font-family:'Inter',sans-serif">
+            <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-bottom:2px">Nav Station</div>
+            <div style="font-size:12px;font-weight:600">Chart table, marine radio, instruments</div>
+          </div>
+        </div>
+        <div style="position:relative;overflow:hidden">
+          <img src="boat-saloon.jpg" style="width:100%;height:100%;object-fit:cover" alt="Main saloon seating" onerror="this.parentElement.style.background='#1C1A17';this.style.display='none'"/>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:10px 12px;color:white;font-family:'Inter',sans-serif">
+            <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-bottom:2px">Saloon</div>
+            <div style="font-size:12px;font-weight:600">Full teak interior, comfortable seating</div>
+          </div>
+        </div>
+        <div style="position:relative;overflow:hidden">
+          <img src="boat-helm.jpg" style="width:100%;height:100%;object-fit:cover" alt="Helm with Garmin and Raytheon instruments" onerror="this.parentElement.style.background='#1C1A17';this.style.display='none'"/>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:10px 12px;color:white;font-family:'Inter',sans-serif">
+            <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-bottom:2px">Helm</div>
+            <div style="font-size:12px;font-weight:600">Garmin chartplotter + Raytheon radar</div>
+          </div>
+        </div>
+        <div style="position:relative;overflow:hidden">
+          <img src="boat-cockpit-night.jpg" style="width:100%;height:100%;object-fit:cover" alt="Cockpit at night with blue LED lighting" onerror="this.parentElement.style.background='#1C1A17';this.style.display='none'"/>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:10px 12px;color:white;font-family:'Inter',sans-serif">
+            <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-bottom:2px">Cockpit</div>
+            <div style="font-size:12px;font-weight:600">LED cockpit lighting — the living room</div>
+          </div>
+        </div>
+        <div style="position:relative;overflow:hidden">
+          <img src="boat-vberth.jpg" style="width:100%;height:100%;object-fit:cover" alt="V-berth forward cabin with double bed" onerror="this.parentElement.style.background='#1C1A17';this.style.display='none'"/>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.75));padding:10px 12px;color:white;font-family:'Inter',sans-serif">
+            <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-bottom:2px">Forward Cabin</div>
+            <div style="font-size:12px;font-weight:600">Double V-berth — real bed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DESTINATION GUIDE ═══ -->
+<div class="wrap">
+  <div class="section-tag">The Destination Guide</div>
+  <div class="divider"></div>
+  <h2>Stop by stop — fishing, kiteboarding, nature, and nightlife.</h2>
+  <p>Every stop on the circuit rated across what matters: fishing quality, kite/wind conditions, untouched anchorages for grilling and camping, and where the nights get good. This is the route optimized for the crew that wants all of it.</p>
+
+  <!-- ACTIVITY VISUALS -->
+  <div style="margin:40px 0 48px">
+    <h3 style="font-family:'Helvetica Neue',sans-serif;color:var(--navy);font-size:16px;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase">What you're doing out there</h3>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px">
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:180px">
+        <img src="https://images.pexels.com/photos/327337/pexels-photo-327337.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Offshore fishing"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.75));
+          display:flex;flex-direction:column;justify-content:flex-end;padding:12px;color:white;font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:20px;margin-bottom:2px">🎣</div>
+          <div style="font-size:12px;font-weight:700">Offshore Fishing</div>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:180px">
+        <img src="https://images.pexels.com/photos/4784434/pexels-photo-4784434.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Kiteboarding"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.75));
+          display:flex;flex-direction:column;justify-content:flex-end;padding:12px;color:white;font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:20px;margin-bottom:2px">🪁</div>
+          <div style="font-size:12px;font-weight:700">Kiteboarding</div>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:180px">
+        <img src="https://images.pexels.com/photos/4777692/pexels-photo-4777692.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Snorkeling"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.75));
+          display:flex;flex-direction:column;justify-content:flex-end;padding:12px;color:white;font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:20px;margin-bottom:2px">🤿</div>
+          <div style="font-size:12px;font-weight:700">Snorkeling &amp; Diving</div>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:180px">
+        <img src="https://images.pexels.com/photos/2975690/pexels-photo-2975690.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Grilling on the beach"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.75));
+          display:flex;flex-direction:column;justify-content:flex-end;padding:12px;color:white;font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:20px;margin-bottom:2px">🔥</div>
+          <div style="font-size:12px;font-weight:700">Beach Grilling</div>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:180px">
+        <img src="https://images.pexels.com/photos/13136714/pexels-photo-13136714.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Beach bar"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.75));
+          display:flex;flex-direction:column;justify-content:flex-end;padding:12px;color:white;font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:20px;margin-bottom:2px">🍹</div>
+          <div style="font-size:12px;font-weight:700">Beach Bar Nights</div>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:180px">
+        <img src="https://images.pexels.com/photos/15766437/pexels-photo-15766437.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Untouched bay"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.75));
+          display:flex;flex-direction:column;justify-content:flex-end;padding:12px;color:white;font-family:'Helvetica Neue',sans-serif">
+          <div style="font-size:20px;margin-bottom:2px">🌿</div>
+          <div style="font-size:12px;font-weight:700">Untouched Bays</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESTINATION PHOTO GRID -->
+  <div style="margin:0 0 48px">
+    <h3 style="font-family:'Helvetica Neue',sans-serif;color:var(--navy);font-size:16px;letter-spacing:1px;margin-bottom:20px;text-transform:uppercase">The destinations</h3>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/33977614/pexels-photo-33977614.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Montauk"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">Montauk</div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/9565566/pexels-photo-9565566.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Block Island"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">Block Island</div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/4577858/pexels-photo-4577858.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Nantucket"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">Nantucket</div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/30964390/pexels-photo-30964390.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Chesapeake"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">Chesapeake Bay</div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/327337/pexels-photo-327337.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Charleston"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">Charleston SC</div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/15766437/pexels-photo-15766437.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="Bahamas"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">Bahamas / Exumas</div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/4784434/pexels-photo-4784434.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="BVI"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">BVI / USVI</div>
+      </div>
+      <div style="position:relative;border-radius:10px;overflow:hidden;height:160px">
+        <img src="https://images.pexels.com/photos/13136714/pexels-photo-13136714.jpeg?auto=compress&cs=tinysrgb&w=800&h=640&dpr=1" loading="lazy"
+          style="width:100%;height:100%;object-fit:cover" alt="St Barts"/>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));
+          padding:10px 12px;color:white;font-family:'Helvetica Neue',sans-serif;font-size:12px;font-weight:700">St. Barts</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="display:flex;gap:20px;flex-wrap:wrap;margin:28px 0 40px;font-family:'Helvetica Neue',sans-serif;font-size:13px">
+    <span>🎣 Fishing</span>
+    <span>🪁 Kiteboarding/Wind</span>
+    <span>🏝️ Untouched anchorage</span>
+    <span>🔥 Grilling / camping</span>
+    <span>🌿 Nature / wildlife</span>
+    <span>🎉 Nightlife / party scene</span>
+    <span style="color:var(--gold);font-weight:700">★★★ = World-class</span>
+  </div>
+
+  <!-- DESTINATION CARDS -->
+  <style>
+    .dest { border: 1px solid var(--border); border-radius: 14px; margin-bottom: 28px; overflow: hidden; }
+    .dest-header { background: #1C1A17; color: #F0EBE2; padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    [data-theme="dark"] .dest-header { background: var(--bg-alt); }
+    .dest-header h3 { font-family: 'Cormorant Garamond', Georgia, serif; color: #F0EBE2; font-size: 22px; font-weight: 400; margin: 0; }
+    .dest-header .dist { font-family: 'Inter', sans-serif; font-size: 11px; opacity: .55; letter-spacing: 1px; }
+    .dest-ratings { display: flex; gap: 16px; flex-wrap: wrap; }
+    .dr { font-size: 13px; }
+    .dest-body { padding: 24px 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; background: var(--bg); }
+    @media(max-width:620px){ .dest-body { grid-template-columns: 1fr; } }
+    .dest-col h4 { font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ocean); margin-bottom: 10px; font-weight: 600; }
+    .dest-col p { font-size: 15px; margin: 0; color: var(--ink-2); }
+    .dest-col ul { list-style: none; font-size: 15px; color: var(--ink-2); line-height: 2; }
+    .dest-col ul li::before { content: '→ '; color: var(--gold); }
+    .dest-season { background: var(--bg-alt); padding: 12px 28px; font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--ink-2); border-top: 1px solid var(--border); }
+  </style>
+
+  <!-- LONG ISLAND SOUND / MONTAUK -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">HOME WATERS — SUMMER</div>
+        <h3>🗽 Long Island Sound — Montauk &amp; Eastern LI</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★★</span>
+        <span class="dr">🪁 ★★</span>
+        <span class="dr">🏝️ ★★</span>
+        <span class="dr">🎉 ★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>Fishing</h4>
+        <p>Montauk is one of the premier bluefish, striped bass, and tuna fishing grounds on the entire East Coast. The Canyon runs (offshore, 60–70 miles) produce yellowfin, bigeye, and bluefin tuna in summer. Inshore: striper and bluefish every evening along the beach. Anchor near the lighthouse — fish come to you.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Kiteboarding &amp; Wind</h4>
+        <p>Long Island Sound is medium wind in summer — enough for great sailing, not a dedicated kite destination. Kiteboarding is better at Jones Beach, Shinnecock Bay (Hampton Bays), and the outer bays. The Sound itself is better for daysailing and racing. Expect 10–18 knots on most summer afternoons.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Untouched Anchorages &amp; Nature</h4>
+        <ul>
+          <li>Lake Montauk — protected inner harbor, anchor for free, dinghy to town</li>
+          <li>Shelter Island — two-boat anchorage, quiet, beautiful</li>
+          <li>Gardiners Island — private but circumnavigate, fantastic wildlife</li>
+          <li>Plum Island — anchor off, bird sanctuary, striking geology</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Nightlife &amp; Grilling</h4>
+        <p>Montauk has gone serious nightlife — Gurney's, the Surf Lodge, Navy Beach. Sag Harbor is quieter and excellent. The move is: grill on the boat at anchor during the day, dinghy ashore for dinner and drinks. Don't stay in a marina just to walk to bars — anchor and use the dinghy.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window: June – September · Striped bass peak: Sept–Oct · Tuna canyon runs: July–August</div>
+  </div>
+
+  <!-- BLOCK ISLAND -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">130 NM FROM OYSTER BAY</div>
+        <h3>🌿 Block Island, Rhode Island</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★</span>
+        <span class="dr">🪁 ★★★</span>
+        <span class="dr">🏝️ ★★★</span>
+        <span class="dr">🎉 ★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>Kiteboarding &amp; Wind</h4>
+        <p>Block Island is one of the best kiteboarding spots in the Northeast. The island is exposed on all sides — consistent 15–25 knot winds most of the season. The southeast coast (Fred Benson Town Beach area) is the primary kite zone. Water is flat in the channel behind the island. Serious kite destination.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Untouched Nature</h4>
+        <p>40% of the island is preserved natural land — the Southeast Lighthouse bluffs, the Mohegan Bluffs (200-foot clay cliffs), and the North and South Ponds are genuinely spectacular and wild. Rent bikes on the island, hike the trails, anchor in Great Salt Pond and walk out to the bluffs.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Fishing</h4>
+        <ul>
+          <li>Striped bass trolling around the island September–October</li>
+          <li>Bluefish from the boat at anchor all summer</li>
+          <li>Fluke in the Great Salt Pond</li>
+          <li>Offshore: Block Island Canyon for tuna in July/August</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Nightlife &amp; Scene</h4>
+        <p>The Great Salt Pond anchorage fills with 500+ boats on summer weekends — the biggest floating social scene in New England. Dinghies rafting up, paddleboards, music carrying across the water. Ashore: The Oar and the Mahogany Shoals are the classics. Not Miami nightlife — more like a very good summer beach party with great people.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window: June – September · Kite season: July–September · Peak anchorage crowd: July 4th &amp; Labor Day weekends</div>
+  </div>
+
+  <!-- NANTUCKET -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">180 NM FROM OYSTER BAY</div>
+        <h3>⛵ Nantucket, Massachusetts</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★</span>
+        <span class="dr">🪁 ★★</span>
+        <span class="dr">🏝️ ★★</span>
+        <span class="dr">🎉 ★★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>The Vibe</h4>
+        <p>Nantucket is the prestige stop — cobblestones, cedar-shake houses, good restaurants, an actual party scene in summer. Anchor in Madaket on the west end for quiet, or pick up a town mooring for quick access to the main action. The Nantucket Boat Basin has a famous dock scene on summer evenings.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Nature &amp; Beaches</h4>
+        <p>Great Point on the island's north tip is a seal colony and shore-fishing destination. Coskata-Coatue Wildlife Refuge is one of the great undeveloped barrier spits on the East Coast. Rent bikes and explore the moors — the interior of Nantucket looks like Scotland.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Fishing</h4>
+        <ul>
+          <li>Great Point surf fishing: legendary striped bass spot</li>
+          <li>Bluefish around the shoals all summer</li>
+          <li>Bonito and false albacore in September — speed fish, light tackle</li>
+          <li>Nantucket Sound: fluke and scup year-round</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Nightlife &amp; Dining</h4>
+        <p>The Chicken Box for live music and late nights. The Gazebo and Lola 41 for cocktails and crowd. Ventuno for Italian. Topper's for serious dining. For the boat — buy lobsters from the Nantucket Lobster Trap ($12–$15/lb), boil them in the cockpit with corn and butter. Best meal of the summer, every time.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window: July – September · Peak nightlife: July 4th, Daffodil Festival (April), Christmas Stroll (December)</div>
+  </div>
+
+  <!-- CHESAPEAKE -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">SNOWBIRD RUN — OCTOBER</div>
+        <h3>🦀 Chesapeake Bay — Annapolis &amp; Beyond</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★★</span>
+        <span class="dr">🪁 ★</span>
+        <span class="dr">🏝️ ★★★</span>
+        <span class="dr">🎉 ★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>Untouched Anchorages — The Best in the US</h4>
+        <p>The Chesapeake has more protected, beautiful, completely free anchorages than any body of water in the country. Solomons Island. Smith Island (inhabited, no cars, time-stopped). Tangier Island. Fishing Creek. The Miles River. You can spend a week anchoring in a different cove every night and never see another boat.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Fishing</h4>
+        <ul>
+          <li>Blue crab — drop a pot off the stern at anchor, haul it every morning. Cook aboard.</li>
+          <li>Striped bass (rockfish) — October is peak season, the best striped bass fishing on the East Coast</li>
+          <li>Oysters — harvest from sanctioned beds (check regulations), eat raw at anchor</li>
+          <li>Bluefish — blitzing schools all fall</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Grilling &amp; Nature</h4>
+        <p>The Chesapeake in October is a grilling paradise. Anchor in a quiet cove. Pull up blue crabs from the pot. Grill rockfish on the cockpit grill. Osprey, bald eagles, and herons everywhere. The light in October on the Bay is extraordinary — flat water, golden afternoons, cool nights. Bring sweatshirts.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Annapolis Stop</h4>
+        <p>The sailing capital of the US. Historic downtown, excellent restaurants, the Naval Academy waterfront. Ego Alley is a famous channel where boats parade in — watch from a dinghy. The United States Sailboat Show in October is the world's largest in-water boat show. Time your southbound trip to stop here for a week.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window for snowbird stop: mid-September – November · Rockfish peak: October · Crab season: May–November</div>
+  </div>
+
+  <!-- CHARLESTON -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">ICW STOP — SOUTH CAROLINA</div>
+        <h3>🌺 Charleston, South Carolina</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★</span>
+        <span class="dr">🪁 ★</span>
+        <span class="dr">🏝️ ★★</span>
+        <span class="dr">🎉 ★★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>The Stop to Not Skip</h4>
+        <p>Charleston is one of the finest small cities in America — extraordinary food, beautiful historic architecture, a social scene that punches well above its size. Anchor in the Ashley River, dinghy to the marina, walk into town. Budget at least 3–4 nights here on the southbound ICW run.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Nearby Nature</h4>
+        <ul>
+          <li>Capers Island — uninhabited barrier island, camping permitted, incredible shells and birds</li>
+          <li>ACE Basin — one of the largest undeveloped estuaries on the East Coast, kayaking and wildlife</li>
+          <li>Bull Island — wilderness beach, no development, alligators in the marsh, no crowds</li>
+          <li>Cape Romain NWR — accessible only by boat</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Food &amp; Nightlife</h4>
+        <p>FIG, Husk, The Ordinary (great seafood bar), Leon's — Charleston restaurant quality rivals NYC. King Street for late nights. The Rooftop at Vendue. Charleston is genuinely one of the best restaurant cities in the US — eat well here, provisions for the next leg, move south.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Fishing</h4>
+        <p>Inshore: redfish, trout, flounder in the estuaries. Crabbing in the marsh creeks. Offshore: dolphin (mahi), king mackerel, amberjack when conditions allow. The Gulf Stream is accessible from Charleston for a full offshore day trip.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best passage timing: October–November (southbound), April (northbound)</div>
+  </div>
+
+  <!-- BAHAMAS ABACOS -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">55 NM FROM PALM BEACH — GULF STREAM CROSSING</div>
+        <h3>🐠 The Bahamas — Abacos &amp; Exumas</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★★</span>
+        <span class="dr">🪁 ★★★</span>
+        <span class="dr">🏝️ ★★★</span>
+        <span class="dr">🔥 ★★★</span>
+        <span class="dr">🎉 ★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>Untouched Anchorages</h4>
+        <ul>
+          <li><strong>Warderick Wells Cay</strong> — Exuma Land &amp; Sea Park, no fishing inside, clearest water in the Bahamas, completely pristine. Anchor in the blue hole.</li>
+          <li><strong>Staniel Cay</strong> — swimming pigs, Thunderball Grotto (James Bond), nurse sharks. Anchor, snorkel, barbecue on the beach.</li>
+          <li><strong>Shroud Cay</strong> — uninhabited, tidal creeks, camp on the beach, no phone signal</li>
+          <li><strong>Allan's Cay</strong> — iguana colony, anchor alone, nothing else there</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Fishing</h4>
+        <ul>
+          <li>Mahi-mahi on the Gulf Stream crossing — troll en route, arrive with dinner</li>
+          <li>Wahoo — fast, excellent eating, Exumas chain in winter</li>
+          <li>Bonefish — the premier flats fishing in the world. Andros Island is the bonefishing capital. Hire a guide, or sight-cast from the dinghy on the flats at low tide.</li>
+          <li>Spearfishing — grouper, snapper, hogfish (bring pole spear)</li>
+          <li>Lobster — Bahamian crawfish (spiny lobster), legal to free-dive for</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Kiteboarding</h4>
+        <p>The Bahamas is a world-class kiteboarding destination. Long Island (Bahamas) has consistent trade winds and flat sand flats on the western side. Eleuthera's Surfer's Beach is a kite destination. The Abacos have kite-friendly conditions on the banks side. Bring gear.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Grilling &amp; Party Stops</h4>
+        <ul>
+          <li><strong>Staniel Cay Yacht Club</strong> — burger night, Kalik on the dock, bonfire on the beach. Unpretentious and legendary.</li>
+          <li><strong>Hopetown, Abacos</strong> — candy-stripe lighthouse, the Abaco Inn, small community with a great bar scene</li>
+          <li><strong>Nassau</strong> — the only actual city. Arawak Cay fish fry for conch salad and Kalik beer. Not a party destination but a great provisioning and culture stop.</li>
+          <li>Any deserted beach: anchor the boat, dinghy ashore, build a fire, grill mahi caught that morning. This is the move.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="dest-season">Best window: November – April (northeast trade winds, no hurricane season) · Bonefish peak: year-round · Lobster season: August 1 – March 31</div>
+  </div>
+
+  <!-- TURKS AND CAICOS -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">+300 NM SOUTHEAST OF NASSAU</div>
+        <h3>🌊 Turks &amp; Caicos</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★★</span>
+        <span class="dr">🪁 ★★★</span>
+        <span class="dr">🏝️ ★★★</span>
+        <span class="dr">🎉 ★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>Kiteboarding — World-Class</h4>
+        <p>Long Bay Beach on Providenciales is one of the premier kiteboarding beaches in the world. Consistent 15–25 knot trades from the northeast, flat warm water on the banks side, a dedicated kite community. Fly in just for this if you need to — or arrive by boat and stay a week.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Untouched Cays</h4>
+        <ul>
+          <li><strong>French Cay</strong> — remote shark sanctuary, nurse and reef sharks everywhere, snorkeling is extraordinary</li>
+          <li><strong>West Caicos</strong> — uninhabited, pristine wall diving, anchor in the northwest bay</li>
+          <li><strong>Middle Caicos</strong> — largest island, barely visited, limestone caves, deserted beaches</li>
+          <li><strong>South Caicos</strong> — working conch fishing village, no tourists, genuine Caribbean</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Fishing</h4>
+        <ul>
+          <li>Bonefish on the flats around North Caicos and Middle Caicos</li>
+          <li>Blue marlin and yellowfin tuna offshore — Caicos Bank drops off to deep water quickly</li>
+          <li>Conch — everywhere, pull them off the bottom in the shallows, make conch salad at anchor</li>
+          <li>Wahoo trolling between the islands</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Scene</h4>
+        <p>Provo (Providenciales) has Turks Kite Club, the Hole in the Wall bar, and Grace Bay for a nice dinner. The island has gentrified into a luxury destination but the outer cays are completely untouched. Arrive by boat, anchor at French Cay, come into Provo for provisions and a good meal, go back out. That's the right approach.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window: December – April · Kite season peaks: January–March · Trade winds most consistent: Feb–April</div>
+  </div>
+
+  <!-- BVI -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">BRITISH VIRGIN ISLANDS / US VIRGIN ISLANDS</div>
+        <h3>⛵ BVI &amp; USVI — The Classic</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★</span>
+        <span class="dr">🪁 ★★</span>
+        <span class="dr">🏝️ ★★★</span>
+        <span class="dr">🔥 ★★★</span>
+        <span class="dr">🎉 ★★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>Must-Do Anchorages</h4>
+        <ul>
+          <li><strong>The Bight, Norman Island</strong> — anchor in clear water, dinghy to William Thornton ("Willy T") floating bar, snorkel Treasure Cave at the headland</li>
+          <li><strong>The Baths, Virgin Gorda</strong> — giant granite boulders forming sea pools, one of the most photographed spots in the Caribbean</li>
+          <li><strong>Anegada</strong> — flat coral atoll, endless lobster, bonefish flats, Cow Wreck Beach Bar, pink flamingos. The BVI's best-kept secret.</li>
+          <li><strong>Sandy Spit, Green Cay</strong> — tiny deserted sandbar island. Anchor off, swim ashore. Paradise.</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Party Stops</h4>
+        <ul>
+          <li><strong>Jost Van Dyke — Soggy Dollar Bar</strong>: invented the Painkiller cocktail. Arrive by dinghy, anchor off White Bay. One of the most famous beach bars in the world.</li>
+          <li><strong>Willy T (William Thornton)</strong>: floating bar on Norman Island. Famous for jumping off the top deck.</li>
+          <li><strong>Foxy's, Jost Van Dyke</strong>: legendary New Year's Eve party draws thousands of boats</li>
+          <li><strong>St. John (USVI)</strong>: Cruz Bay — excellent bars, 60% National Park, stunning hiking</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Fishing &amp; Nature</h4>
+        <ul>
+          <li>Anegada has the best bonefish flats in the eastern Caribbean</li>
+          <li>Deep-sea: blue marlin, wahoo, mahi trolling between islands</li>
+          <li>Spearfishing for grouper and snapper (check BVI regulations)</li>
+          <li>Dolphins bow-riding the boat on every passage between islands</li>
+          <li>Turtle nesting beaches on Anegada and Peter Island</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>The Grilling Move</h4>
+        <p>Anegada Reef Hotel hosts a lobster barbecue most evenings — full lobster, rice, and salad on a beach. But the better version: dinghy to shore, buy live lobsters from local fishermen, take them back to the boat, split and grill over charcoal in the cockpit, eat at sunset while anchored off a deserted beach. This happens every other night in the BVI if you want it to.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window: November – May · New Year's Eve: book mooring balls at Jost Van Dyke months in advance · Trade winds peak Jan–March</div>
+  </div>
+
+  <!-- ST BARTS -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">+50 NM FROM BVI</div>
+        <h3>🥂 St. Barts — Gustavia</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★</span>
+        <span class="dr">🪁 ★★</span>
+        <span class="dr">🏝️ ★★</span>
+        <span class="dr">🎉 ★★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>The Scene</h4>
+        <p>St. Barts is the French Riviera of the Caribbean — Gustavia harbor fills with superyachts, the restaurants are legitimately excellent, the beaches are beautiful, and the nightlife in January–March is as good as the Caribbean gets. Anchor out in Gustavia harbor (it's free) and watch the superyacht parade from the cockpit. Dinner at Le Tamarin or L'Isoletta ashore.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Beaches</h4>
+        <ul>
+          <li><strong>Colombier Beach</strong> — only accessible by boat or 45-min hike. Anchor off, swim ashore. Completely undeveloped. One of the best beaches in the Caribbean.</li>
+          <li><strong>Shell Beach</strong> — right in Gustavia, easy dinghy access, covered in shells</li>
+          <li><strong>Saline Beach</strong> — clothing-optional, wild, no facilities, stunning</li>
+          <li><strong>Gouverneur</strong> — quiet, gorgeous, anchor off the south coast</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>New Year's Eve</h4>
+        <p>Gustavia harbor on New Year's Eve is one of the great parties in the Caribbean — boats rafted three-deep, fireworks, music from every boat, French champagne flowing. Book your spot in the harbor early. This is worth building the trip calendar around.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Practical Notes</h4>
+        <p>St. Barts is French territory — check in is straightforward. Gustavia has excellent provisioning (Marché U supermarket), duty-free alcohol (stock up here — the best prices in the Caribbean), and chandlery supplies. The harbor is well-protected. Plan 4–5 nights minimum — it earns it.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window: December – March · New Year's Eve: book months ahead · High season (busy, expensive): Christmas–mid-January</div>
+  </div>
+
+  <!-- CAYMANS -->
+  <div class="dest">
+    <div class="dest-header">
+      <div>
+        <div class="dist">WESTERN ROUTE — VIA CUBA SOUTH COAST</div>
+        <h3>🏝️ Cayman Islands — Grand Cayman, Little Cayman, Cayman Brac</h3>
+      </div>
+      <div class="dest-ratings">
+        <span class="dr">🎣 ★★★</span>
+        <span class="dr">🪁 ★★</span>
+        <span class="dr">🏝️ ★★★</span>
+        <span class="dr">🎉 ★★</span>
+      </div>
+    </div>
+    <div class="dest-body">
+      <div class="dest-col">
+        <h4>Why Go</h4>
+        <p>The Caymans are one of the last truly world-class Caribbean destinations that isn't overrun. Grand Cayman's Seven Mile Beach is legitimately one of the best in the world — calm, clear, warm, no seagrass, long and wide. Little Cayman and Cayman Brac are remote and extraordinary. Friends with property on-island make this a real home-port stop.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Diving &amp; Fishing</h4>
+        <ul>
+          <li><strong>Little Cayman — Bloody Bay Wall</strong>: ranked among the world's top 5 dive sites. 6,000-foot wall starts at 20 feet. Bring dive gear or hire a boat.</li>
+          <li><strong>Stingray City</strong>: famous sandbar where wild stingrays feed from your hand. Snorkel or dive.</li>
+          <li><strong>Deep-sea fishing</strong>: blue marlin, wahoo, mahi. The Cayman Trench drops to 25,000 feet — deep-water species close to shore.</li>
+          <li><strong>Bonefish</strong>: North Sound flats on Grand Cayman</li>
+        </ul>
+      </div>
+      <div class="dest-col">
+        <h4>Getting There</h4>
+        <p>The route from Palm Beach goes via the Bahamas, then west along Cuba's south coast, then south to Grand Cayman — roughly 600 nm total. The Cuba passage requires advance planning (permission, routing) and is a serious offshore leg. The alternative: position the boat in Mexico/Belize and approach from the west. Or: fly crew into Grand Cayman from anywhere in the world while the boat stays in the Bahamas.</p>
+      </div>
+      <div class="dest-col">
+        <h4>Scene &amp; Friends</h4>
+        <p>Georgetown (Grand Cayman) has good restaurants and a lively expat scene, but the island is more low-key than St. Barts or BVI. The real draw is the water and the diving, not the nightlife. Having friends with property here is the key — that turns a marina stop into a home base and opens up the island in a way tourists never see.</p>
+      </div>
+    </div>
+    <div class="dest-season">Best window: November – April (dry season) · Hurricane season ends: November · Stingray City: year-round</div>
+  </div>
+
+</div>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta">
+  <div class="tag" style="color:var(--gold)">The Question</div>
+  <h2>Are you in?</h2>
+  <p>One boat is a weekend toy. Three boats is a completely different thing. The Bahamas trip alone is worth buying in — and every year after that costs less.</p>
+  <div class="btns">
+    <a href="https://www.yachtworld.com/boats-for-sale/type-sail/loa-min-35/loa-max-38/price-max-25000/" class="btn btn-gold" target="_blank">Browse Available Boats</a>
+    <a href="https://www.cruisersforum.com/forums/f126/" class="btn btn-outline" target="_blank">Cruisers Forum Classifieds</a>
+  </div>
+  <div style="margin-top:56px;opacity:.3;font-family:'Helvetica Neue',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase">The Captains · Centre Island to the Caribbean · Est. 2025</div>
+</div>
+
+<footer>
+  Prepared for Ragnar, Max &amp; Zack &nbsp;·&nbsp; All costs are estimates based on 2025 market data. Verify with a licensed marine surveyor and insurance broker before purchase. Anchoring rules in Florida waterways are subject to change — confirm current restrictions before extended stays.
+</footer>
+
+</body>
+</html>
